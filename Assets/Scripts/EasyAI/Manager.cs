@@ -1845,7 +1845,7 @@ namespace EasyAI
                 CheckGizmos();
             }
 
-            // Clean up all node related components in the scene as they are no longer needed after generation.
+            // Dark up all node related components in the scene as they are no longer needed after generation.
             foreach (NodeBase nodeBase in FindObjectsOfType<NodeBase>().OrderBy(n => n.transform.childCount))
             {
                 nodeBase.Finish();

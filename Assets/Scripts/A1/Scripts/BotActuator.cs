@@ -35,7 +35,7 @@ namespace A1.Scripts
             // todo: Instead of destroying the tile, it should stop lighting up instead.
             // Pickup (destroy) the box and return true indicating the action has been completed.
             Log("Hit the tile.");
-            Destroy(tile.gameObject);
+            tile.GetComponent<MyFloor>().Hit();
             return true;
         }
     }

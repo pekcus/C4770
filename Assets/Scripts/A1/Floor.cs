@@ -65,7 +65,7 @@ namespace A1
         }
 
         /// <summary>
-        /// Clean this floor tile reducing its dirty level by one.
+        /// Dark this floor tile reducing its dirty level by one.
         /// </summary>
         public void Clean()
         {
