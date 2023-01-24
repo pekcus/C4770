@@ -73,7 +73,7 @@ namespace A1
             {
                 return;
             }
-            
+
             State--;
             UpdateMaterial();
         }
@@ -100,7 +100,8 @@ namespace A1
         /// <param name="dirtyMaterial">The material to display when this floor is dirty.</param>
         /// <param name="veryDirtyMaterial">The material to display when this floor is very dirty.</param>
         /// <param name="extremelyDirtyMaterial">The material to display when this floor is extremely dirty.</param>
-        public void Setup(bool likelyToGetDirty, Material cleanMaterial, Material dirtyMaterial, Material veryDirtyMaterial, Material extremelyDirtyMaterial)
+        public void Setup(bool likelyToGetDirty, Material cleanMaterial, Material dirtyMaterial,
+            Material veryDirtyMaterial, Material extremelyDirtyMaterial)
         {
             LikelyToGetDirty = likelyToGetDirty;
             _cleanMaterial = cleanMaterial;
@@ -118,7 +119,7 @@ namespace A1
             {
                 _meshRenderer = GetComponent<MeshRenderer>();
             }
-            
+
             _meshRenderer.material = State switch
             {
                 DirtLevel.Clean => _cleanMaterial,

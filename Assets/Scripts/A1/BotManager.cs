@@ -17,45 +17,38 @@ namespace A1
         /// All floors.
         /// </summary>
         public static List<Floor> Floors => BotSingleton._floors;
-        
+
         /// <summary>
         /// Getter to cast the AgentManager singleton into a FloorManager.
         /// </summary>
         private static BotManager BotSingleton => Singleton as BotManager;
-        
+
         /// <summary>
         /// All floors.
         /// </summary>
         private readonly List<Floor> _floors = new();
 
-        [Header("Cleaner Parameters")]
-        [Tooltip("How many floor sections will be generated.")]
-        [SerializeField]
+        [Header("Cleaner Parameters")] [Tooltip("How many floor sections will be generated.")] [SerializeField]
         private Vector2 floorSize = new(3, 1);
 
-        [Tooltip("How many units wide will each floor section be generated as.")]
-        [SerializeField]
-        [Min(1)]
+        [Tooltip("How many units wide will each floor section be generated as.")] [SerializeField] [Min(1)]
         private int floorScale = 1;
 
-        [Tooltip("The percentage chance that any floor section during generation will be likely to get dirty meaning the odds in increases in dirt level every time are double that of other floor sections.")]
+        [Tooltip(
+            "The percentage chance that any floor section during generation will be likely to get dirty meaning the odds in increases in dirt level every time are double that of other floor sections.")]
         [Range(0, 1)]
         [SerializeField]
         private float likelyToGetDirtyChance;
 
-        [Tooltip("How many seconds between every time dirt is randomly added to the floor.")]
-        [Min(0)]
-        [SerializeField]
+        [Tooltip("How many seconds between every time dirt is randomly added to the floor.")] [Min(0)] [SerializeField]
         private float timeBetweenDirtGeneration = 5;
 
         [Tooltip("The percentage chance that a floor section will increase in dirt level during dirt generation.")]
         [Range(0, 1)]
         [SerializeField]
         private float chanceDirty;
-        
-        [Header("Prefabs")]
-        [Tooltip("The prefab for the cleaning agent that will be spawned in.")]
-        [SerializeField]
+
+        [Header("Prefabs")] [Tooltip("The prefab for the cleaning agent that will be spawned in.")] [SerializeField]
         private GameObject cleanerAgentPrefab;
 
         [Header("Floor Materials")]
@@ -63,20 +56,16 @@ namespace A1
         [SerializeField]
         private Material materialCleanNormal;
 
-        [Tooltip("The material applied to like to get dirty floor sections when they are clean.")]
-        [SerializeField]
+        [Tooltip("The material applied to like to get dirty floor sections when they are clean.")] [SerializeField]
         private Material materialCleanLikelyToGetDirty;
 
-        [Tooltip("The material applied to a floor section when it is dirty.")]
-        [SerializeField]
+        [Tooltip("The material applied to a floor section when it is dirty.")] [SerializeField]
         private Material materialDirty;
 
-        [Tooltip("The material applied to a floor section when it is very dirty.")]
-        [SerializeField]
+        [Tooltip("The material applied to a floor section when it is very dirty.")] [SerializeField]
         private Material materialVeryDirty;
 
-        [Tooltip("The material applied to a floor section when it is extremely dirty.")]
-        [SerializeField]
+        [Tooltip("The material applied to a floor section when it is extremely dirty.")] [SerializeField]
         private Material materialExtremelyDirty;
 
         /// <summary>
@@ -99,16 +88,18 @@ namespace A1
             {
                 Destroy(BotSingleton._cleanerAgent.gameObject);
             }
-            
+
             // Destroy all previous floors.
             foreach (Floor floor in BotSingleton._floors)
             {
                 Destroy(floor.gameObject);
             }
+
             BotSingleton._floors.Clear();
-            
+
             // Generate the floor tiles.
-            Vector2 offsets = new Vector2((BotSingleton.floorSize.x - 1) / 2f, (BotSingleton.floorSize.y - 1) / 2f) * BotSingleton.floorScale;
+            Vector2 offsets = new Vector2((BotSingleton.floorSize.x - 1) / 2f, (BotSingleton.floorSize.y - 1) / 2f) *
+                              BotSingleton.floorScale;
             for (int x = 0; x < BotSingleton.floorSize.x; x++)
             {
                 for (int y = 0; y < BotSingleton.floorSize.y; y++)
@@ -118,7 +109,8 @@ namespace A1
             }
 
             // Add the cleaner agent.
-            BotSingleton._cleanerAgent = Instantiate(BotSingleton.cleanerAgentPrefab, Vector3.zero, quaternion.identity);
+            BotSingleton._cleanerAgent =
+                Instantiate(BotSingleton.cleanerAgentPrefab, Vector3.zero, quaternion.identity);
             BotSingleton._cleanerAgent.name = "Cleaner Agent";
 
             // Reset elapsed time.
@@ -134,18 +126,21 @@ namespace A1
         {
             // Create a quad, then position, rotate, size, and name it.
             GameObject go = GameObject.CreatePrimitive(PrimitiveType.Quad);
-            go.transform.position = new(position.x * BotSingleton.floorScale - offsets.x, 0, position.y * BotSingleton.floorScale - offsets.y);
+            go.transform.position = new(position.x * BotSingleton.floorScale - offsets.x, 0,
+                position.y * BotSingleton.floorScale - offsets.y);
             go.transform.rotation = Quaternion.Euler(90, 0, 0);
             go.transform.localScale = new(BotSingleton.floorScale, BotSingleton.floorScale, 1);
             go.name = $"Floor {position.x} {position.y}";
-            
+
             // Its collider is not needed.
             Destroy(go.GetComponent<Collider>());
-            
+
             // Add and setup its floor component.
             Floor floor = go.AddComponent<Floor>();
             bool likelyToGetDirty = Random.value < BotSingleton.likelyToGetDirtyChance;
-            floor.Setup(likelyToGetDirty, likelyToGetDirty ? BotSingleton.materialCleanLikelyToGetDirty : BotSingleton.materialCleanNormal, BotSingleton.materialDirty, BotSingleton.materialVeryDirty, BotSingleton.materialExtremelyDirty);
+            floor.Setup(likelyToGetDirty,
+                likelyToGetDirty ? BotSingleton.materialCleanLikelyToGetDirty : BotSingleton.materialCleanNormal,
+                BotSingleton.materialDirty, BotSingleton.materialVeryDirty, BotSingleton.materialExtremelyDirty);
             BotSingleton._floors.Add(floor);
         }
 
@@ -163,7 +158,7 @@ namespace A1
 
             // Reset elapsed time.
             BotSingleton._elapsedTime = 0;
-            
+
             SetFloorTiles();
         }
 
@@ -180,7 +175,7 @@ namespace A1
 
             // Get the chance that any tile will become dirty.
             float currentDirtyChance = Mathf.Max(BotSingleton.chanceDirty, float.Epsilon);
-            
+
             // We will loop until at least a single tile has been made dirty.
             bool addedDirty = false;
             do
@@ -204,8 +199,7 @@ namespace A1
 
                 // Double the chances of tiles getting dirty for the next loop so we are not infinitely looping.
                 currentDirtyChance *= 2;
-            }
-            while (!addedDirty);
+            } while (!addedDirty);
         }
 
         protected override void Start()
@@ -239,7 +233,7 @@ namespace A1
                 GenerateFloor();
                 SetFloorTiles();
             }
-            
+
             // Increase the floor width.
             if (floorSize.x < 5)
             {
@@ -261,7 +255,7 @@ namespace A1
                     GenerateFloor();
                 }
             }
-            
+
             // Increase the floor height.
             if (floorSize.y < 5)
             {
@@ -283,7 +277,7 @@ namespace A1
                     GenerateFloor();
                 }
             }
-            
+
             return NextItem(y, h, p);
         }
     }

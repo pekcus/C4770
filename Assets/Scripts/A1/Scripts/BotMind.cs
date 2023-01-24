@@ -22,14 +22,14 @@ namespace A1.Scripts
 
             // Sense the nearest box.
             Transform tile = agent.Sense<BotSensor, Transform>();
-            
+
             // If there are no boxes left, do nothing.
             if (tile == null)
             {
                 agent.Log("Touched all tiles.");
                 return;
             }
-            
+
             // Move towards the box and try to pick it up.
             agent.Log($"Touching {tile.name} next.");
             agent.Move(tile.position);

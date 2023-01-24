@@ -33,7 +33,7 @@ namespace EasyAI
             /// True if this move data was setup with a transform so if at any point the transform is destroyed this is removed as well.
             /// </summary>
             public readonly bool IsTransformTarget;
-            
+
             /// <summary>
             /// Store the position which is only used if the transform is null.
             /// </summary>
@@ -48,12 +48,12 @@ namespace EasyAI
             /// The last position this was in since 
             /// </summary>
             public Vector2 LastPosition;
-        
+
             /// <summary>
             /// The movement vector for visualizing move data.
             /// </summary>
             public Vector2 MoveVector = Vector2.zero;
-        
+
             /// <summary>
             /// Get the position of the transform if it has one otherwise the position it was set to have.
             /// </summary>
@@ -114,17 +114,15 @@ namespace EasyAI
         /// The actions of this agent that are not yet completed.
         /// </summary>
         private readonly List<object> _inProgressActions = new();
-    
-        [Tooltip("How fast this agent can move in units per second.")]
-        [Min(0)]
-        [SerializeField]
+
+        [Tooltip("How fast this agent can move in units per second.")] [Min(0)] [SerializeField]
         private float moveSpeed = 10;
-    
+
         [Tooltip("How fast this agent can increase in move speed in units per second. Set to zero for instant.")]
         [Min(0)]
         [SerializeField]
         private float moveAcceleration;
-    
+
         [Tooltip("How fast this agent can look in degrees per second. Set to zero for instant.")]
         [Min(0)]
         [SerializeField]
@@ -262,13 +260,13 @@ namespace EasyAI
         public void SetState<T>() where T : State
         {
             State value = Manager.GetState<T>();
-            
+
             // If already in this state, do nothing.
             if (State == value)
             {
                 return;
             }
-            
+
             // Exit the current state.
             if (State != null)
             {
@@ -284,8 +282,8 @@ namespace EasyAI
                 State.Enter(this);
             }
         }
-        
-        
+
+
         /// <summary>
         /// Get if the agent is in a given state.
         /// </summary>
@@ -319,11 +317,11 @@ namespace EasyAI
                     return correctType;
                 }
             }
-            
+
             // Return null if the given sensor returning the requested data type does not exist.
             return default;
         }
-        
+
         /// <summary>
         /// Read all of a give sensor type and receive all of a given data piece type.
         /// </summary>
@@ -333,7 +331,7 @@ namespace EasyAI
         public List<TData> SenseAll<TSensor, TData>() where TSensor : Sensor
         {
             List<TData> dataList = new();
-            
+
             // Loop through all sensors.
             foreach (Sensor sensor in Sensors)
             {
@@ -349,7 +347,7 @@ namespace EasyAI
                     dataList.Add(correctType);
                 }
             }
-            
+
             return dataList;
         }
 
@@ -391,7 +389,7 @@ namespace EasyAI
                     _inProgressActions.RemoveAt(i);
                     break;
                 }
-                
+
                 return;
             }
 
@@ -406,7 +404,7 @@ namespace EasyAI
                 _inProgressActions[i] = action;
                 return;
             }
-            
+
             _inProgressActions.Add(action);
         }
 
@@ -457,11 +455,11 @@ namespace EasyAI
             {
                 return false;
             }
-        
+
             Path = Manager.LookupPath(transform.position, goal);
             return true;
         }
-    
+
         /// <summary>
         /// Clear the path.
         /// </summary>
@@ -502,7 +500,7 @@ namespace EasyAI
             Moves.Clear();
             AddMove(pos, behaviour);
         }
-    
+
         /// <summary>
         /// Add a transform to move based upon.
         /// </summary>
@@ -510,11 +508,12 @@ namespace EasyAI
         /// <param name="behaviour">The move type.</param>
         public void AddMove(Transform tr, Steering.Behaviour behaviour = Steering.Behaviour.Seek)
         {
-            if (Moves.Exists(m => m.Behaviour == behaviour && m.Transform == tr) || Steering.IsMoveComplete(behaviour, new(transform.position.x, transform.position.z), new(tr.position.x, tr.position.z)))
+            if (Moves.Exists(m => m.Behaviour == behaviour && m.Transform == tr) || Steering.IsMoveComplete(behaviour,
+                    new(transform.position.x, transform.position.z), new(tr.position.x, tr.position.z)))
             {
                 return;
             }
-            
+
             RemoveMove(tr);
             Moves.Add(new(behaviour, tr));
         }
@@ -536,11 +535,12 @@ namespace EasyAI
         /// <param name="behaviour">The move type.</param>
         public void AddMove(Vector2 pos, Steering.Behaviour behaviour = Steering.Behaviour.Seek)
         {
-            if (Moves.Exists(m => m.Behaviour == behaviour && m.Transform == null && m.Position == pos) || Steering.IsMoveComplete(behaviour, new(transform.position.x, transform.position.z), pos))
+            if (Moves.Exists(m => m.Behaviour == behaviour && m.Transform == null && m.Position == pos) ||
+                Steering.IsMoveComplete(behaviour, new(transform.position.x, transform.position.z), pos))
             {
                 return;
             }
-            
+
             RemoveMove(pos);
             Moves.Add(new(behaviour, pos));
         }
@@ -582,7 +582,7 @@ namespace EasyAI
                 StopLooking();
                 return;
             }
-            
+
             Look(target.position);
         }
 
@@ -605,7 +605,11 @@ namespace EasyAI
             }
             else
             {
-                if (Manager.CurrentlySelectedAgent == this && Mouse.current.rightButton.wasPressedThisFrame && Physics.Raycast(Manager.SelectedCamera.ScreenPointToRay(new(Mouse.current.position.x.ReadValue(), Mouse.current.position.y.ReadValue(), 0)), out RaycastHit hit, Mathf.Infinity, Manager.GroundLayers | Manager.ObstacleLayers))
+                if (Manager.CurrentlySelectedAgent == this && Mouse.current.rightButton.wasPressedThisFrame &&
+                    Physics.Raycast(
+                        Manager.SelectedCamera.ScreenPointToRay(new(Mouse.current.position.x.ReadValue(),
+                            Mouse.current.position.y.ReadValue(), 0)), out RaycastHit hit, Mathf.Infinity,
+                        Manager.GroundLayers | Manager.ObstacleLayers))
                 {
                     StopMoving();
                     Navigate(hit.point);
@@ -625,7 +629,7 @@ namespace EasyAI
             {
                 Performance = PerformanceMeasure.CalculatePerformance();
             }
-            
+
             // Reset the elapsed time for the next time this method is called.
             DeltaTime = 0;
         }
@@ -646,7 +650,7 @@ namespace EasyAI
         {
             // Register this agent with the manager.
             Manager.AddAgent(this);
-            
+
             // Find the performance measure.
             PerformanceMeasure = GetComponent<PerformanceMeasure>();
             if (PerformanceMeasure == null)
@@ -664,12 +668,12 @@ namespace EasyAI
             {
                 actuator.Agent = this;
             }
-        
+
             // Find all attached sensors.
             List<Sensor> sensors = GetComponents<Sensor>().ToList();
             sensors.AddRange(GetComponentsInChildren<Sensor>());
             Sensors = sensors.Distinct().ToArray();
-            
+
             // Setup the percepts array to match the size of the sensors so each sensor can return a percepts to its index.
             foreach (Sensor sensor in Sensors)
             {
@@ -694,7 +698,7 @@ namespace EasyAI
                 Visuals = children[0];
             }
         }
-    
+
         /// <summary>
         /// Implement movement behaviour.
         /// </summary>
@@ -706,7 +710,7 @@ namespace EasyAI
         public void LookCalculations()
         {
             Vector3 target;
-        
+
             // If the agent has no otherwise set point to look, look in the direction it is moving.
             if (!LookingToTarget)
             {
@@ -714,7 +718,7 @@ namespace EasyAI
                 {
                     return;
                 }
-            
+
                 Transform t = transform;
                 target = t.position + t.rotation * MoveVelocity3.normalized;
                 target = new(target.x, Visuals.position.y, target.z);
@@ -733,15 +737,20 @@ namespace EasyAI
 
             // Face towards the target.
             float maxSpeed = lookSpeed > 0 ? lookSpeed : Mathf.Infinity;
-            Vector3 rotation = Vector3.RotateTowards(Visuals.forward, target - Visuals.position, maxSpeed * Time.deltaTime, 0.0f);
-            Visuals.rotation = rotation == Vector3.zero || float.IsNaN(rotation.x) || float.IsNaN(rotation.y) || float.IsNaN(rotation.z) ? Visuals.rotation : Quaternion.LookRotation(rotation);
+            Vector3 rotation = Vector3.RotateTowards(Visuals.forward, target - Visuals.position,
+                maxSpeed * Time.deltaTime, 0.0f);
+            Visuals.rotation =
+                rotation == Vector3.zero || float.IsNaN(rotation.x) || float.IsNaN(rotation.y) ||
+                float.IsNaN(rotation.z)
+                    ? Visuals.rotation
+                    : Quaternion.LookRotation(rotation);
         }
 
         protected virtual void Start()
         {
             // Setup the agent.
             Setup();
-        
+
             // Enter its global and normal states if they are set.
             if (Manager.Mind != null)
             {
@@ -798,10 +807,10 @@ namespace EasyAI
         {
             // Initialize the movement for this time step.
             Vector2 movement = Vector2.zero;
-        
+
             // If not using acceleration, have everything move as quick as possible to be clamped later.
             float acceleration = moveAcceleration > 0 ? moveAcceleration : float.MaxValue;
-        
+
             // Convert the position into a Vector2 for use with steering methods.
             Vector3 positionVector3 = transform.position;
             Vector2 position = new(positionVector3.x, positionVector3.z);
@@ -819,7 +828,7 @@ namespace EasyAI
                             Path.RemoveAt(0);
                             continue;
                         }
-                        
+
                         break;
                     }
 
@@ -827,17 +836,19 @@ namespace EasyAI
                     p1.y += Manager.NavigationRadius;
                     Vector3 p2 = Path[1];
                     p2.y += Manager.NavigationRadius;
-                    if (!Physics.SphereCast(p1, Manager.NavigationRadius, (p2 - p1).normalized, out _, Vector3.Distance(p1, p2), Manager.ObstacleLayers))
+                    if (!Physics.SphereCast(p1, Manager.NavigationRadius, (p2 - p1).normalized, out _,
+                            Vector3.Distance(p1, p2), Manager.ObstacleLayers))
                     {
                         Path.RemoveAt(0);
                         continue;
                     }
-                    
+
                     break;
                 }
-                
+
                 // Remove path locations which have been satisfied in being reached.
-                while (Path.Count > 0 && Vector2.Distance(position, new(Path[0].x, Path[0].z)) <= Manager.SeekAcceptableDistance)
+                while (Path.Count > 0 && Vector2.Distance(position, new(Path[0].x, Path[0].z)) <=
+                       Manager.SeekAcceptableDistance)
                 {
                     Path.RemoveAt(0);
                 }
@@ -859,7 +870,8 @@ namespace EasyAI
                     Vector2 target = Moves[i].Position;
 
                     // If this was a transform movement and the transform is now gone or the move has been satisfied, remove it.
-                    if (Moves[i].IsTransformTarget && Moves[i].Transform == null || Steering.IsMoveComplete(Moves[i].Behaviour, position, target))
+                    if (Moves[i].IsTransformTarget && Moves[i].Transform == null ||
+                        Steering.IsMoveComplete(Moves[i].Behaviour, position, target))
                     {
                         Moves.RemoveAt(i--);
                         continue;
@@ -867,9 +879,10 @@ namespace EasyAI
 
                     // Increase the elapsed time for the move data.
                     Moves[i].DeltaTime += deltaTime;
-                    
+
                     // Update the movement vector of the data based on its given move type.
-                    Moves[i].MoveVector = Steering.Move(Moves[i].Behaviour, position, MoveVelocity, target, Moves[i].LastPosition, acceleration, Moves[i].DeltaTime);
+                    Moves[i].MoveVector = Steering.Move(Moves[i].Behaviour, position, MoveVelocity, target,
+                        Moves[i].LastPosition, acceleration, Moves[i].DeltaTime);
 
                     // Add the newly calculated movement data to the movement vector for this time step.
                     movement += Moves[i].MoveVector;
@@ -887,19 +900,19 @@ namespace EasyAI
             {
                 // Can only slow down at the rate of acceleration but this will instantly stop if there is no acceleration.
                 MoveVelocity = Vector2.Lerp(MoveVelocity, Vector2.zero, acceleration * deltaTime);
-            
+
                 // After reaching below a velocity threshold, set directly to zero.
                 if (MoveVelocity.magnitude < Manager.RestVelocity)
                 {
                     MoveVelocity = Vector2.zero;
                 }
-            
+
                 return;
             }
-        
+
             // Add the new velocity to the agent's velocity.
             MoveVelocity += movement * deltaTime;
-                
+
             double x = MoveVelocity.x;
             double y = MoveVelocity.y;
 
@@ -917,7 +930,7 @@ namespace EasyAI
             x *= moveSpeed;
             y *= moveSpeed;
 
-            MoveVelocity = new((float) x, (float) y);
+            MoveVelocity = new((float)x, (float)y);
         }
 
         /// <summary>
@@ -928,7 +941,7 @@ namespace EasyAI
             for (int i = 0; i < _inProgressActions.Count; i++)
             {
                 bool completed = false;
-                
+
                 foreach (Actuator actuator in Actuators)
                 {
                     completed = actuator.Act(_inProgressActions[i]);
@@ -946,7 +959,7 @@ namespace EasyAI
                 _inProgressActions.RemoveAt(i--);
             }
         }
-        
+
         /// <summary>
         /// Link the performance measure to this agent.
         /// </summary>
