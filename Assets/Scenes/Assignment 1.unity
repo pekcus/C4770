@@ -423,8 +423,9 @@ MonoBehaviour:
   paths: 2
   floorSize: {x: 5, y: 5}
   floorScale: 3
-  timeBetweenLights: 8
-  chanceLit: 0.15
+  timeBetweenLights: 10
+  timeToDim: 8
+  chanceLit: 0.05
   BotAgentPrefab: {fileID: 5829531856079109815, guid: cff9a72f1eaaf4243837c2afdd1e5a3e, type: 3}
   materialBase: {fileID: 2100000, guid: 16a5f053597702647a32bf910951ec0f, type: 2}
   materialDark: {fileID: 2100000, guid: 243bae112579b1542832f68e331057a4, type: 2}

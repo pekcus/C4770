@@ -49,6 +49,10 @@ namespace A1
         [Min(0)]
         [SerializeField]
         private float timeBetweenLights = 5;
+        [Tooltip("How many seconds the tiles remain lit.")]
+        [Min(0)]
+        [SerializeField]
+        private float timeToDim = 5;
         
         [Tooltip("The percentage chance that a floor section will light up during lightinh.")]
         [Range(0, 1)]
@@ -92,9 +96,14 @@ namespace A1
         private GameObject _BotAgent;
 
         /// <summary>
-        /// Keep track of how much time has passed since the last time floor tiles were made dirty.
+        /// Keep track of how much time has passed since the last time floor tiles were lit.
         /// </summary>
         private float _elapsedTime;
+
+        /// <summary>
+        /// Keeps track of if the tiles were turned off or not.
+        /// </summary>
+        private bool tilesReset = false;
 
         /// <summary>
         /// Generate the floor.
@@ -165,19 +174,25 @@ namespace A1
         {
             // Increment how much time has passed and return if it has not been long enough since the last light generation.
             BotSingleton._elapsedTime += Time.deltaTime;
-            if (BotSingleton._elapsedTime < BotSingleton.timeBetweenLights)
+            // Tiles are reset before new tiles light up.
+            if (BotSingleton._elapsedTime < BotSingleton.timeToDim)
+                return;
+            if (!BotSingleton.tilesReset)
             {
+                ResetFloorTiles();
                 return;
             }
+            if (BotSingleton._elapsedTime < BotSingleton.timeBetweenLights)
+                return;
 
             // Reset elapsed time.
             BotSingleton._elapsedTime = 0;
-            
             SetFloorTiles();
+            BotSingleton.tilesReset = false;
         }
 
         /// <summary>
-        /// Set floor tiles to be dirty.
+        /// Light floor tiles.
         /// </summary>
         private static void SetFloorTiles()
         {
@@ -191,10 +206,9 @@ namespace A1
             // Get the chance that any tile will become dirty.
             float currentLitChance = Mathf.Max(BotSingleton.chanceLit, float.Epsilon);
             
-            // We will loop until at least a single tile has been made dirty.
+            /*// We will loop until at least a single tile has been made dirty.
             int addedLit = 0;
-            //do
-            //{
+            do {*/
                 // Loop through all floor tiles that are not lit.
                 foreach (MyFloor floor in BotSingleton._floors.Where(f => f.State == MyFloor.LightLevel.Dark))
                 {
@@ -209,9 +223,9 @@ namespace A1
                         if (Random.value <= lightChance)
                         {
                             floor.Light();
-                            addedLit++;
-                            // Decrease the chance of the tile lighting if it has already been lit.
-                            //lightChance = lightChance * 0.5f;
+                            //addedLit++;
+                            // Increase the chance of the tile lighting if it has already been lit.
+                            lightChance = lightChance * 1.5f;
                         }
                     }
                 }
@@ -221,6 +235,19 @@ namespace A1
             //}
             //while (addedLit < 3);
         }
+
+        /// <summary>
+        /// Reset floor tiles.
+        /// </summary>
+        private static void ResetFloorTiles()
+        {
+            foreach (MyFloor floor in BotSingleton._floors.Where(f => f.State > MyFloor.LightLevel.Dark))
+            {
+                floor.Hit();
+            }
+
+            BotSingleton.tilesReset = true;
+        } 
 
         protected override void Start()
         {

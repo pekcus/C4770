@@ -126,6 +126,7 @@
      <Compile Include="Assets\Scripts\A1\MyFloor.cs" />
      <Compile Include="Assets\Scripts\A1\Scripts\BotPerformance.cs" />
      <Compile Include="Assets\Scripts\A1\MyBotManager.cs" />
+     <Compile Include="Assets\Scripts\A1\Scripts\BotSensor2.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets\Effects\Shaders" />
      <Folder Include="Assets\Scripts\EasyAI\Navigation\Generators" />

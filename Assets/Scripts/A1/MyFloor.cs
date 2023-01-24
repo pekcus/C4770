@@ -13,11 +13,11 @@ namespace A1
         /// </summary>
         public enum LightLevel : byte
         {
-            Base,
             Dark,
             Light1,
             Light2,
-            Light3
+            Light3,
+            Base
         }
 
         /// <summary>
@@ -73,15 +73,13 @@ namespace A1
         /// <summary>
         /// When hit, the tile turns off.
         /// </summary>
-        public void Hit()
+        public bool Hit()
         {
             if (State == LightLevel.Dark || _isBase)
-            {
-                return;
-            }
-            
+                return false;
             State = LightLevel.Dark;
             UpdateMaterial();
+            return true;
         }
 
         /// <summary>

@@ -32,10 +32,16 @@ namespace A1.Scripts
                 return false;
             }
             
-            // todo: Instead of destroying the tile, it should stop lighting up instead.
             // Pickup (destroy) the box and return true indicating the action has been completed.
             Log("Hit the tile.");
-            tile.GetComponent<MyFloor>().Hit();
+            // Save the points as an int - floor.Hit() resets the floor state, so floor.State will be 0 inside the loop.
+            MyFloor floor = tile.GetComponent<MyFloor>();
+            int points = (int)floor.State;
+            if (floor.Hit())
+            {
+                BotPerformance.hit += points;
+            }
+
             return true;
         }
     }
