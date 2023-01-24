@@ -21,6 +21,11 @@ namespace A1
         }
 
         /// <summary>
+        /// The material to display when this floor is a base tile.
+        /// </summary>
+        private Material _baseMaterial;
+        
+        /// <summary>
         /// The material to display when this floor is dark.
         /// </summary>
         private Material _darkMaterial;
@@ -51,9 +56,9 @@ namespace A1
         public LightLevel State { get; private set; }
 
         /// <summary>
-        /// If this floor is the base middle tile. This tile does not light up and serves as a base.
+        /// If this floor is likely to get dirty. Floors where this is true are twice as likely to get more dirty than other floor tiles.
         /// </summary>
-        public bool LikelyToGetDirty { get; private set; }
+        public bool _isBase { get; private set; }
 
         /// <summary>
         /// If the floor tile is lit or not.
@@ -70,7 +75,7 @@ namespace A1
         /// </summary>
         public void Hit()
         {
-            if (State == LightLevel.Dark || State == LightLevel.Base)
+            if (State == LightLevel.Dark || _isBase)
             {
                 return;
             }
@@ -84,11 +89,8 @@ namespace A1
         /// </summary>
         public void Light()
         {
-            if (isBase)
-            {
+            if (_isBase)
                 return;
-            }
-
             State++;
             UpdateMaterial();
         }
@@ -101,13 +103,16 @@ namespace A1
         /// <param name="dirtyMaterial">The material to display when this floor is dirty.</param>
         /// <param name="veryDirtyMaterial">The material to display when this floor is very dirty.</param>
         /// <param name="extremelyDirtyMaterial">The material to display when this floor is extremely dirty.</param>
-        public void Setup(bool isBase, Material darkMaterial, Material L1Material, Material L2Material, Material L3Material)
+        public void Setup(bool isBase, Material baseMaterial, Material darkMaterial, Material L1Material, Material L2Material, Material L3Material)
         {
-            isBase = isBase;
+            _isBase = isBase;
+            _baseMaterial = baseMaterial;
             _darkMaterial = darkMaterial;
             _l1Material = L1Material;
             _l2Material = L2Material;
             _l3Material = L3Material;
+            if (!_isBase)
+                State = LightLevel.Dark;
         }
 
         /// <summary>
@@ -122,6 +127,7 @@ namespace A1
             
             _meshRenderer.material = State switch
             {
+                LightLevel.Base => _baseMaterial,
                 LightLevel.Dark => _darkMaterial,
                 LightLevel.Light1 => _l1Material,
                 LightLevel.Light2 => _l2Material,

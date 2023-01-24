@@ -2,6 +2,7 @@
 using System.Linq;
 using EasyAI;
 using Unity.Mathematics;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -152,10 +153,8 @@ namespace A1
             MyFloor floor = go.AddComponent<MyFloor>();
             //bool likelyToBeLit = Random.value < BotSingleton.likelyToBeLit;
             //floor.Setup(likelyToBeLit, likelyToBeLit ? BotSingleton.materialCleanLikelyToGetDirty : BotSingleton.materialDark, BotSingleton.materialL1, BotSingleton.materialL2, BotSingleton.materialL3);
-            bool isBase = ((go.transform.position == Vector3.zero) ? true : false);
-                
-            else 
-            floor.Setup(BotSingleton.materialDark, BotSingleton.materialL1, BotSingleton.materialL2, BotSingleton.materialL3);
+            bool isBase = (go.transform.position == Vector3.zero);
+            floor.Setup(isBase, BotSingleton.materialBase, BotSingleton.materialDark, BotSingleton.materialL1, BotSingleton.materialL2, BotSingleton.materialL3);
             BotSingleton._floors.Add(floor);
         }
 
