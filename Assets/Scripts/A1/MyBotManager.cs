@@ -19,7 +19,7 @@ namespace A1
         /// All floors.
         /// </summary>
         public static List<MyFloor> Floors => BotSingleton._floors;
-        
+
         /// <summary>
         /// Getter to cast the AgentManager singleton into a FloorManager.
         /// </summary>
@@ -60,9 +60,6 @@ namespace A1
 
 
         [Header("Floor Materials")]
-        /*[Tooltip("The material applied to the middle (base) floor section.")]
-        [SerializeField]
-        private Material materialBase;*/
         [Tooltip("The material applied to normal floor sections when they are not lit.")]
         [SerializeField]
         private Material materialDark;
@@ -102,11 +99,13 @@ namespace A1
         /// </summary>
         private static void GenerateFloor()
         {
-            /*// Destroy the previous agent.
+            /*
+             * // Destroy the previous agent.
             if (BotSingleton._BotAgent != null)
             {
                 Destroy(BotSingleton._BotAgent.gameObject);
-            }*/
+            }
+            */
 
             // Destroy all previous floors.
             foreach (MyFloor floor in BotSingleton._floors)
@@ -165,8 +164,7 @@ namespace A1
             MyFloor floor = go.AddComponent<MyFloor>();
             //bool likelyToBeLit = Random.value < BotSingleton.likelyToBeLit;
             //floor.Setup(likelyToBeLit, likelyToBeLit ? BotSingleton.materialCleanLikelyToGetDirty : BotSingleton.materialDark, BotSingleton.materialL1, BotSingleton.materialL2, BotSingleton.materialL3);
-            bool isBase = (go.transform.position == Vector3.zero);
-            floor.Setup( /*isBase, BotSingleton.materialBase,*/ BotSingleton.materialDark, BotSingleton.materialL1,
+            floor.Setup(BotSingleton.materialDark, BotSingleton.materialL1,
                 BotSingleton.materialL2, BotSingleton.materialL3);
             BotSingleton._floors.Add(floor);
         }
