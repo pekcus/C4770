@@ -19,7 +19,7 @@ namespace A1
         /// All floors.
         /// </summary>
         public static List<MyFloor> Floors => BotSingleton._floors;
-
+        
         /// <summary>
         /// Getter to cast the AgentManager singleton into a FloorManager.
         /// </summary>
@@ -47,21 +47,24 @@ namespace A1
         [Tooltip("How many seconds the tiles remain lit.")] [Min(0)] [SerializeField]
         private float timeToDim = 5;
 
-        [Tooltip("The percentage chance that a floor section will light up during lightinh.")]
+        [Tooltip("The percentage chance that a floor section will light up during lighting.")]
         [Range(0, 1)]
         [SerializeField]
         private float chanceLit;
 
-        [Header("Prefabs")] [Tooltip("The prefab for the bot agent that will be spawned in.")] [SerializeField]
-        private GameObject BotAgentPrefab;
+        [Header("Prefabs")] [Tooltip("The prefab for the first bot agent that will be spawned in.")] [SerializeField]
+        private GameObject BotAgentPrefab1;
+
+        [Tooltip("The prefab for the second bot agent that will be spawned in.")] [SerializeField]
+        private GameObject BotAgentPrefab2;
 
 
         [Header("Floor Materials")]
-        [Tooltip("The material applied to the middle (base) floor section.")]
+        /*[Tooltip("The material applied to the middle (base) floor section.")]
         [SerializeField]
-        private Material materialBase;
-
-        [Tooltip("The material applied to normal floor sections when they are not lit.")] [SerializeField]
+        private Material materialBase;*/
+        [Tooltip("The material applied to normal floor sections when they are not lit.")]
+        [SerializeField]
         private Material materialDark;
 
         /*[Tooltip("The material applied to like to get dirty floor sections when they are clean.")]
@@ -80,7 +83,9 @@ namespace A1
         /// <summary>
         /// The root game object of the cleaner agent.
         /// </summary>
-        private GameObject _BotAgent;
+        private GameObject _BotAgent1;
+
+        private GameObject _BotAgent2;
 
         /// <summary>
         /// Keep track of how much time has passed since the last time floor tiles were lit.
@@ -97,11 +102,11 @@ namespace A1
         /// </summary>
         private static void GenerateFloor()
         {
-            // Destroy the previous agent.
+            /*// Destroy the previous agent.
             if (BotSingleton._BotAgent != null)
             {
                 Destroy(BotSingleton._BotAgent.gameObject);
-            }
+            }*/
 
             // Destroy all previous floors.
             foreach (MyFloor floor in BotSingleton._floors)
@@ -112,19 +117,27 @@ namespace A1
             BotSingleton._floors.Clear();
 
             // Generate the floor tiles.
-            Vector2 offsets = new Vector2((BotSingleton.floorSize.x - 1) / 2f, (BotSingleton.floorSize.y - 1) / 2f) *
-                              BotSingleton.floorScale;
-            for (int x = 0; x < BotSingleton.floorSize.x; x++)
+            for (int i = 1; i < 3; i++)
             {
-                for (int y = 0; y < BotSingleton.floorSize.y; y++)
+                Vector2 offsets = new Vector2((BotSingleton.floorSize.x - 1) / 2f * i,
+                                      (BotSingleton.floorSize.y - 1) / 2f) *
+                                  BotSingleton.floorScale;
+                for (int x = 0; x < BotSingleton.floorSize.x; x++)
                 {
-                    GenerateFloorTile(new(x, y), offsets);
+                    for (int y = 0; y < BotSingleton.floorSize.y; y++)
+                    {
+                        GenerateFloorTile(i, new(x, y), offsets);
+                    }
                 }
             }
 
-            // Add the cleaner agent.
-            BotSingleton._BotAgent = Instantiate(BotSingleton.BotAgentPrefab, Vector3.zero, quaternion.identity);
-            BotSingleton._BotAgent.name = "Cleaner Agent";
+
+            // Add the two bots.
+            BotSingleton._BotAgent1 = Instantiate(BotSingleton.BotAgentPrefab1, Vector3.zero, quaternion.identity);
+            BotSingleton._BotAgent1.name = "Bot 1";
+            BotSingleton._BotAgent2 =
+                Instantiate(BotSingleton.BotAgentPrefab2, (Vector3.left * 18), quaternion.identity);
+            BotSingleton._BotAgent2.name = "Bot 2";
 
             // Reset elapsed time.
             BotSingleton._elapsedTime = 0;
@@ -135,15 +148,15 @@ namespace A1
         /// </summary>
         /// <param name="position">Its position relative to the rest of the floor tiles.</param>
         /// <param name="offsets">How much to offset the floor tile so all floors are centered around the origin.</param>
-        private static void GenerateFloorTile(Vector2 position, Vector2 offsets)
+        private static void GenerateFloorTile(int i, Vector2 position, Vector2 offsets)
         {
             // Create a quad, then position, rotate, size, and name it.
             GameObject go = GameObject.CreatePrimitive(PrimitiveType.Quad);
-            go.transform.position = new(position.x * BotSingleton.floorScale - offsets.x, 0,
+            go.transform.position = new(position.x * BotSingleton.floorScale - offsets.x * i, 0,
                 position.y * BotSingleton.floorScale - offsets.y);
             go.transform.rotation = Quaternion.Euler(90, 0, 0);
             go.transform.localScale = new(BotSingleton.floorScale, BotSingleton.floorScale, 1);
-            go.name = $"Floor {position.x} {position.y}";
+            go.name = $"Floor{i} {position.x} {position.y}";
 
             // Its collider is not needed.
             Destroy(go.GetComponent<Collider>());
@@ -153,7 +166,7 @@ namespace A1
             //bool likelyToBeLit = Random.value < BotSingleton.likelyToBeLit;
             //floor.Setup(likelyToBeLit, likelyToBeLit ? BotSingleton.materialCleanLikelyToGetDirty : BotSingleton.materialDark, BotSingleton.materialL1, BotSingleton.materialL2, BotSingleton.materialL3);
             bool isBase = (go.transform.position == Vector3.zero);
-            floor.Setup(isBase, BotSingleton.materialBase, BotSingleton.materialDark, BotSingleton.materialL1,
+            floor.Setup( /*isBase, BotSingleton.materialBase,*/ BotSingleton.materialDark, BotSingleton.materialL1,
                 BotSingleton.materialL2, BotSingleton.materialL3);
             BotSingleton._floors.Add(floor);
         }
@@ -198,34 +211,34 @@ namespace A1
             // Get the chance that any tile will become dirty.
             float currentLitChance = Mathf.Max(BotSingleton.chanceLit, float.Epsilon);
 
-            /*// We will loop until at least a single tile has been made dirty.
+            // We will loop until at least a single tile has been made dirty.
             int addedLit = 0;
-            do {*/
-            // Loop through all floor tiles that are not lit.
-            foreach (MyFloor floor in BotSingleton._floors.Where(f => f.State == MyFloor.LightLevel.Dark))
+            do
             {
-                /*// Double the chance to get dirty of the current floor tile is likely to get dirty.
-                float dirtChance = floor.LikelyToGetDirty ? currentLitChance * 2 : currentLitChance;*/
-                // 40% chance to make it more likely that the tile will be lit
-                float lightChance = Random.value > 0.6f ? currentLitChance * 2 : currentLitChance;
-
-                // Attempt to light each tile three times to set the light level to one of the three light levels.
-                for (int i = 0; i < 3; i++)
+                // Loop through all floor tiles that are not lit.
+                foreach (MyFloor floor in BotSingleton._floors.Where(f => f.State == MyFloor.LightLevel.Dark))
                 {
-                    if (Random.value <= lightChance)
+                    /*// Double the chance to get dirty of the current floor tile is likely to get dirty.
+                    float dirtChance = floor.LikelyToGetDirty ? currentLitChance * 2 : currentLitChance;*/
+                    // 40% chance to make it more likely that the tile will be lit
+                    float lightChance = Random.value > 0.6f ? currentLitChance * 2 : currentLitChance;
+
+                    // Attempt to light each tile three times to set the light level to one of the three light levels.
+                    for (int i = 0; i < 3; i++)
                     {
-                        floor.Light();
-                        //addedLit++;
-                        // Increase the chance of the tile lighting if it has already been lit.
-                        lightChance = lightChance * 1.5f;
+                        if (Random.value <= lightChance)
+                        {
+                            floor.Light();
+                            addedLit++;
+                            // Increase the chance of the tile lighting if it has already been lit.
+                            lightChance = lightChance * 1.5f;
+                        }
                     }
                 }
-            }
 
-            // Double the chances of tiles getting lighting up for the next loop so we are not infinitely looping.
-            currentLitChance *= 2;
-            //}
-            //while (addedLit < 3);
+                // Double the chances of tiles getting lighting up for the next loop so we are not infinitely looping.
+                currentLitChance *= 2;
+            } while (addedLit < 10);
         }
 
         /// <summary>

@@ -367,7 +367,7 @@ GameObject:
   - component: {fileID: 460686381}
   - component: {fileID: 460686382}
   m_Layer: 0
-  m_Name: Bot Manager
+  m_Name: Bot Manager 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -426,7 +426,8 @@ MonoBehaviour:
   timeBetweenLights: 10
   timeToDim: 8
   chanceLit: 0.05
-  BotAgentPrefab: {fileID: 5829531856079109815, guid: cff9a72f1eaaf4243837c2afdd1e5a3e, type: 3}
+  BotAgentPrefab1: {fileID: 5829531856079109815, guid: cff9a72f1eaaf4243837c2afdd1e5a3e, type: 3}
+  BotAgentPrefab2: {fileID: 5829531856079109815, guid: aece26144d171e142a95898f1a61b5a3, type: 3}
   materialBase: {fileID: 2100000, guid: 16a5f053597702647a32bf910951ec0f, type: 2}
   materialDark: {fileID: 2100000, guid: 243bae112579b1542832f68e331057a4, type: 2}
   materialL1: {fileID: 2100000, guid: 4172dc026a7e14c43a1ed5dcf5611737, type: 2}

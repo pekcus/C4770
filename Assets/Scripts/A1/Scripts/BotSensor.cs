@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Runtime.CompilerServices;
 using EasyAI;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ namespace A1.Scripts
             // Find all floor tiles in the scene.
             // Constantly finding objects is inefficient, in actual use look for ways to store values.
             Transform[] tiles = FindObjectsOfType<Transform>()
-                .Where(t => t.name.Contains("Floor") && t.GetComponent<MyFloor>().IsLit).ToArray();
+                .Where(t => t.name.Contains("Floor1") && t.GetComponent<MyFloor>().IsLit).ToArray();
 
             // Return null if there are no tiles.
             if (tiles.Length == 0)

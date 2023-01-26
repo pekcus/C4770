@@ -6,7 +6,7 @@ namespace A1.Scripts
     /// <summary>
     /// The global state which the cleaner is always in.
     /// </summary>
-    [CreateAssetMenu(menuName = "A1/States/Cleaner Mind", fileName = "Cleaner Mind")]
+    [CreateAssetMenu(menuName = "A1/Scripts/Bot", fileName = "Bot Mind")]
     public class BotMind : State
     {
         public override void Execute(Agent agent)
@@ -19,7 +19,7 @@ namespace A1.Scripts
             {
                 return;
             }
-
+            
             // Sense the nearest box.
             Transform tile = agent.Sense<BotSensor, Transform>();
 
