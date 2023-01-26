@@ -41,11 +41,14 @@ namespace A1
         [SerializeField]
         private float likelyToBeLit;*/
 
-        [Tooltip("How many seconds between every time tiles light up.")] [Min(0)] [SerializeField]
+        [Tooltip("How many seconds between every time tiles light up.")] [Range(3,15)] [SerializeField]
         private float timeBetweenLights = 5;
 
-        [Tooltip("How many seconds the tiles remain lit.")] [Min(0)] [SerializeField]
+        [Tooltip("How many seconds the tiles remain lit.")] [Range(2,10)] [SerializeField]
         private float timeToDim = 5;
+        
+        [Tooltip("How many seconds each phase speeds up by.")] [Min(0)] [SerializeField]
+        private static float phaseSpeed= 0.2f;
 
         [Tooltip("The percentage chance that a floor section will light up during lighting.")]
         [Range(0, 1)]
@@ -192,6 +195,13 @@ namespace A1
             BotSingleton._elapsedTime = 0;
             SetFloorTiles();
             BotSingleton.tilesReset = false;
+            // Every phase/cycle (lights went out and new ones lit up), the time for dimming and lighting up decreases.
+            // Capped at the minimum values to not make it unreasonable for bot speed.
+            if (BotSingleton.timeToDim > 2 && BotSingleton.timeBetweenLights > 3)
+            {
+                BotSingleton.timeToDim -= phaseSpeed;
+                BotSingleton.timeBetweenLights -= phaseSpeed;
+            }
         }
 
         /// <summary>
@@ -214,7 +224,7 @@ namespace A1
             do
             {
                 // Loop through all floor tiles that are not lit.
-                foreach (MyFloor floor in BotSingleton._floors.Where(f => f.State == MyFloor.LightLevel.Dark))
+                foreach (MyFloor floor in BotSingleton._floors.Where(f => f.name.Contains("Floor1") /*f.State == MyFloor.LightLevel.Dark)*/))
                 {
                     /*// Double the chance to get dirty of the current floor tile is likely to get dirty.
                     float dirtChance = floor.LikelyToGetDirty ? currentLitChance * 2 : currentLitChance;*/
@@ -227,6 +237,7 @@ namespace A1
                         if (Random.value <= lightChance)
                         {
                             floor.Light();
+                            //MyFloor floor2 = BotSingleton._floors.Where(f => f.name.Contains("Floor2") && f.name.Substring(7).Equals(floor.name.Substring(7)));
                             addedLit++;
                             // Increase the chance of the tile lighting if it has already been lit.
                             lightChance = lightChance * 1.5f;

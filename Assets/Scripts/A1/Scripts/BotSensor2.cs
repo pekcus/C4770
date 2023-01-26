@@ -8,9 +8,13 @@ namespace A1.Scripts
     {
         public override object Sense()
         {
-            // todo: Instead of finding all floor tiles, it should only find tiles that are lit.
             // Find all floor tiles in the scene.
             // Constantly finding objects is inefficient, in actual use look for ways to store values.
+            /* Note: due to my "game design", since all tiles turn off every little while (i.e. they're not persistent)
+                saving them in a permanent array and clearing it every time is a bit more complex than it's worth for
+                only 2 bots, so I left this as is and focused on the other components!                                  */
+
+            // Just like BotSensor1, except each light level is stored in a different array.
             Transform[] tiles1 = FindObjectsOfType<Transform>().Where(t =>
                 t.name.Contains("Floor2") && t.GetComponent<MyFloor>().State == MyFloor.LightLevel.Light1).ToArray();
             Transform[] tiles2 = FindObjectsOfType<Transform>().Where(t =>
@@ -26,6 +30,7 @@ namespace A1.Scripts
             }
 
             // Return the nearest tile otherwise.
+            // Prioritize targeting tiles with highest level worth, then second-highest, then lowest.
             Log("Targeting nearest tile.");
             if (tiles3.Length > 0)
                 return tiles3.OrderBy(b => Vector3.Distance(Agent.transform.position, b.transform.position)).First();

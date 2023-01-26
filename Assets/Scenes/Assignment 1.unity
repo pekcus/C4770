@@ -316,7 +316,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 448259070}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 10, z: 0}
+  m_LocalPosition: {x: -10, y: 10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -428,7 +428,6 @@ MonoBehaviour:
   chanceLit: 0.05
   BotAgentPrefab1: {fileID: 5829531856079109815, guid: cff9a72f1eaaf4243837c2afdd1e5a3e, type: 3}
   BotAgentPrefab2: {fileID: 5829531856079109815, guid: aece26144d171e142a95898f1a61b5a3, type: 3}
-  materialBase: {fileID: 2100000, guid: 16a5f053597702647a32bf910951ec0f, type: 2}
   materialDark: {fileID: 2100000, guid: 243bae112579b1542832f68e331057a4, type: 2}
   materialL1: {fileID: 2100000, guid: 4172dc026a7e14c43a1ed5dcf5611737, type: 2}
   materialL2: {fileID: 2100000, guid: 2d9d060f9e4677b44ae496952450ced6, type: 2}
