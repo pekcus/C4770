@@ -69,7 +69,7 @@ namespace A1
         /// </summary>
         public bool Hit()
         {
-            if (State == LightLevel.Dark /*|| _isBase*/)
+            if (State == LightLevel.Dark)
                 return false;
             State = LightLevel.Dark;
             UpdateMaterial();
