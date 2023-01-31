@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace A1.Scripts
 {
-    public class BotSensor : Sensor
+    public class BotSensor1 : Sensor
     {
         public override object Sense()
         {

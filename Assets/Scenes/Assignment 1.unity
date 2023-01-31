@@ -401,9 +401,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mind: {fileID: 11400000, guid: 98f525b2c2195bb40be697efa5f08ece, type: 2}
-  seekAcceptableDistance: 0.1
+  seekAcceptableDistance: 0.5
   fleeAcceptableDistance: 10
-  restVelocity: 0.1
+  restVelocity: 0.15
   navigationRadius: 0.5
   groundLayers:
     serializedVersion: 2
@@ -423,9 +423,9 @@ MonoBehaviour:
   paths: 2
   floorSize: {x: 5, y: 5}
   floorScale: 3
-  timeBetweenLights: 10
-  timeToDim: 8
-  chanceLit: 0.05
+  timeBetweenLights: 7
+  timeToDim: 5
+  chanceLit: 0.02
   BotAgentPrefab1: {fileID: 5829531856079109815, guid: cff9a72f1eaaf4243837c2afdd1e5a3e, type: 3}
   BotAgentPrefab2: {fileID: 5829531856079109815, guid: aece26144d171e142a95898f1a61b5a3, type: 3}
   materialDark: {fileID: 2100000, guid: 243bae112579b1542832f68e331057a4, type: 2}

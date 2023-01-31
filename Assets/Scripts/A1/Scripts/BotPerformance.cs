@@ -13,6 +13,10 @@ namespace A1.Scripts
         /// <summary>
         /// The total number of tiles hit.
         /// </summary>
+        public static int total;
+        /// <summary>
+        /// The current tile value.
+        /// </summary>
         public static int hit;
 
         // todo: Consider if score should decrease if a tile disappears before it's hit?
@@ -21,7 +25,14 @@ namespace A1.Scripts
         /// </summary>
         /// <returns>The percentage of tiles which have been collected.</returns>
         //public override float CalculatePerformance() => (_totalTiles - TileCount) / _totalTiles * 100;
-        public override float CalculatePerformance() => hit;
+        public override float CalculatePerformance()
+        {
+            hit = MyBotManager.exp ? hit * hit : hit ;
+            hit *= MyBotManager.Points;
+            total += hit;
+            hit = 0;
+            return total;
+        }
 
         protected override void Start()
         {

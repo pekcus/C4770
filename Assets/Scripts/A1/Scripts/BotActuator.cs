@@ -34,10 +34,10 @@ namespace A1.Scripts
             Log("Hit the tile.");
             // Save the points as an int - floor.Hit() resets the floor state, so floor.State will be 0 inside the loop.
             MyFloor floor = tile.GetComponent<MyFloor>();
-            int points = (int)floor.State;
+            int point = (int)floor.State;
             if (floor.Hit())
             {
-                BotPerformance.hit += points;
+                BotPerformance.hit = point;
             }
 
             return true;

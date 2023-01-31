@@ -122,11 +122,13 @@
      <Compile Include="Assets\Scripts\T2\Sensors\EnergySensor.cs" />
      <Compile Include="Assets\Scripts\A2\MicrobePerformance.cs" />
      <Compile Include="Assets\Scripts\A1\MyBotManager.cs" />
-     <Compile Include="Assets\Scripts\A1\Scripts\BotSensor.cs" />
+     <Compile Include="Assets\Scripts\A1\Scripts\BotSensor1.cs" />
      <Compile Include="Assets\Scripts\EasyAI\Navigation\Nodes\NavigationLookup.cs" />
      <Compile Include="Assets\Scripts\Project\Pickups\PickupBase.cs" />
      <Compile Include="Assets\Scripts\T2\Actions\DepleteEnergyAction.cs" />
      <Compile Include="Assets\Scripts\A1\Scripts\BotSensor2.cs" />
+     <Compile Include="Assets\Scripts\A1\Scripts\BotMind1.cs" />
+     <Compile Include="Assets\Scripts\A1\Scripts\BotMind2.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets\Effects\Shaders" />
      <Folder Include="Assets\Scripts\EasyAI\Navigation\Generators" />

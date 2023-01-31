@@ -2,9 +2,7 @@
 using System.Linq;
 using EasyAI;
 using Unity.Mathematics;
-using UnityEditor.SearchService;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace A1
@@ -54,6 +52,15 @@ namespace A1
         [Range(0, 1)]
         [SerializeField]
         private float chanceLit;
+        
+        [Tooltip("The points multiplier.")]
+        [Range(1, 5)]
+        [SerializeField]
+        public static int Points = 1;
+        
+        [Tooltip("Exponential point growth.")]
+        [SerializeField]
+        public static bool exp = true;
 
         [Header("Prefabs")] [Tooltip("The prefab for the first bot agent that will be spawned in.")] [SerializeField]
         private GameObject BotAgentPrefab1;
@@ -226,8 +233,6 @@ namespace A1
                 // Loop through all floor tiles that are not lit.
                 foreach (MyFloor floor in BotSingleton._floors.Where(f => f.name.Contains("Floor1") /*f.State == MyFloor.LightLevel.Dark)*/))
                 {
-                    /*// Double the chance to get dirty of the current floor tile is likely to get dirty.
-                    float dirtChance = floor.LikelyToGetDirty ? currentLitChance * 2 : currentLitChance;*/
                     // 40% chance to make it more likely that the tile will be lit
                     float lightChance = Random.value > 0.6f ? currentLitChance * 2 : currentLitChance;
 
@@ -236,18 +241,21 @@ namespace A1
                     {
                         if (Random.value <= lightChance)
                         {
+                            // Light the same tiles on both floors to make the game more fair.
+                            string tile = floor.name.Substring(7);
+                            MyFloor floor2 = GameObject.Find("Floor2 "+tile).GetComponent<MyFloor>();
                             floor.Light();
-                            //MyFloor floor2 = BotSingleton._floors.Where(f => f.name.Contains("Floor2") && f.name.Substring(7).Equals(floor.name.Substring(7)));
+                            floor2.Light();
                             addedLit++;
                             // Increase the chance of the tile lighting if it has already been lit.
-                            lightChance = lightChance * 1.5f;
+                            lightChance = lightChance * 2f;
                         }
                     }
                 }
 
                 // Double the chances of tiles getting lighting up for the next loop so we are not infinitely looping.
                 currentLitChance *= 2;
-            } while (addedLit < 10);
+            } while (addedLit < 5);
         }
 
         /// <summary>
