@@ -1,4 +1,5 @@
-﻿using EasyAI;
+﻿using System;
+using EasyAI;
 using UnityEngine;
 
 namespace A2.States
@@ -12,7 +13,13 @@ namespace A2.States
         public override void Execute(Agent agent)
         {
             // TODO - Assignment 2 - Complete the mind of the microbes.
-            //agent.SetState<MicrobeRoamingState>();
+            Microbe mic = agent.GetComponent<Microbe>();
+            if(mic.IsHungry)
+                agent.SetState<MicrobeHungryState>();
+            else if (mic.BeingHunted)
+                agent.SetState<MicrobeHuntedState>();
+            else
+                agent.SetState<MicrobeRoamingState>();
         }
     }
 }
