@@ -18,19 +18,21 @@ public class MyPickupState : StateMachineBehaviour
         // Set main variables
         agent = animator.gameObject.GetComponent<Agent>();
         microbe = agent.GetComponent<Microbe>();
+        pickup = agent.Sense<NearestPickupSensor, MicrobeBasePickup>();
+        if (pickup != null)
+            microbe.SetPickup(pickup);
         animator.SetBool("HasPickup", microbe.HasPickup);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // Sense a pickup and move to it
+        // Move to the pickup.
         if (microbe.HasPickup)
         {
             pickup = microbe.Pickup;
             agent.Move(pickup.transform.position);
         }
-
         // Update variables
         animator.SetBool("HasPickup", microbe.HasPickup);
     }

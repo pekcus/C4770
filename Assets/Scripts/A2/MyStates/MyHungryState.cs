@@ -26,11 +26,19 @@ public class MyHungryState : StateMachineBehaviour
     {
         // Get prey via sensor, hunt prey
         if (target == null)
+        {
+            animator.SetBool("HasTarget", false);
             return;
+        }
+            
         microbe.StartHunting(target);
         agent.Move(target.transform.position);
         if (microbe.Eat())
+        {
             animator.SetBool("IsHungry", false);
+            microbe.RemoveTargetMicrobe();
+        }
+
         // set isHungry to false to return to Roaming state.
         // If one meal wasn't enough, it can return to Hungry from Roaming.
         animator.SetBool("HasTarget", microbe.HasTarget);
