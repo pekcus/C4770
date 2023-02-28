@@ -33,22 +33,20 @@ public class MyHungryState : StateMachineBehaviour
         microbe.StartHunting(target);
         agent.Move(target.transform, Steering.Behaviour.Pursue);
         if (microbe.Eat())
-        {
+        {   // set isHungry to false to return to Mind state.
+            // If one meal wasn't enough, it can return to Hungry from Mind.
             animator.SetBool("IsHungry", false);
             microbe.RemoveTargetMicrobe();
         }
-
-        // set isHungry to false to return to Roaming state.
-        // If one meal wasn't enough, it can return to Hungry from Roaming.
+        // Update variables
         animator.SetBool("HasTarget", microbe.HasTarget);
+        animator.SetBool("IsAdult", microbe.IsAdult);
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        // Update variable
-        microbe.RemoveTargetMicrobe();
-    }
+    //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    //{
+    //}
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
     //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

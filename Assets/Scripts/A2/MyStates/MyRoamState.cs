@@ -13,6 +13,7 @@ public class MyRoamState : StateMachineBehaviour
     private Agent agent;
     private Microbe microbe;
     private MicrobeBasePickup pickup;
+    private Vector3 p; 
     
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -22,24 +23,30 @@ public class MyRoamState : StateMachineBehaviour
         microbe = agent.GetComponent<Microbe>();
         animator.SetBool("IsAdult", microbe.IsAdult);
         animator.SetBool("IsHungry", microbe.IsHungry);
+        // Sense nearest pickup. If it's nearby, might as well try to grab it.
+        pickup = agent.Sense<NearestPickupSensor, MicrobeBasePickup>();
+        if ((agent.transform.position - pickup.transform.position).magnitude <= 8f)
+        {
+            microbe.SetPickup(pickup);
+            animator.SetBool("HasPickup", true);
+            p = pickup.transform.position;
+        }
+        // Small random movement - choose nearby position to move to
+        p = agent.transform.position;
+        p.x += Random.Range(-10f, 10f);
+        p.z += Random.Range(-10f, 10f);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        pickup = agent.Sense<NearestPickupSensor, MicrobeBasePickup>();
-        if (Mathf.Abs(agent.transform.position.x - pickup.transform.position.x) <= 5 &&
-            Mathf.Abs(agent.transform.position.z - pickup.transform.position.z) <= 5)
-        {
-            microbe.SetPickup(pickup);
-            animator.SetBool("HasPickup", true);
-        }
-
-        // Small random movement
-        Vector3 p = agent.transform.position;
-        p.x += Random.Range(-2f, 2f);
-        p.z += Random.Range(-2f, 2f);
         agent.Move(p);
+        // if agent has arrived to random spot, set a new random spot
+        if ((agent.transform.position - p).magnitude <= 0.2f)
+        {
+            p.x += Random.Range(-10f, 10f);
+            p.z += Random.Range(-10f, 10f);
+        }
         // Update variables
         animator.SetBool("IsAdult", microbe.IsAdult);
         animator.SetBool("IsHungry", microbe.IsHungry);

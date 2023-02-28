@@ -18,6 +18,7 @@ public class MyMindState : StateMachineBehaviour
         microbe = agent.GetComponent<Microbe>();
         animator.SetBool("IsHungry", microbe.IsHungry);
         animator.SetBool("BeingHunted", microbe.BeingHunted);
+        animator.SetBool("IsAdult", microbe.IsAdult);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -26,6 +27,7 @@ public class MyMindState : StateMachineBehaviour
         // Update variables
         animator.SetBool("IsHungry", microbe.IsHungry);
         animator.SetBool("BeingHunted", microbe.BeingHunted);
+        animator.SetBool("IsAdult", microbe.IsAdult);
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
