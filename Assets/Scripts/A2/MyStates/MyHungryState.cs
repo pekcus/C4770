@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using A2;
 using A2.Sensors;
 using EasyAI;
+using EasyAI.Navigation;
 using UnityEngine;
 
 public class MyHungryState : StateMachineBehaviour
@@ -32,7 +31,7 @@ public class MyHungryState : StateMachineBehaviour
         }
             
         microbe.StartHunting(target);
-        agent.Move(target.transform.position);
+        agent.Move(target.transform, Steering.Behaviour.Pursue);
         if (microbe.Eat())
         {
             animator.SetBool("IsHungry", false);

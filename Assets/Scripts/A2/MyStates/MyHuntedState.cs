@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using A2;
-using A2.Sensors;
 using EasyAI;
+using EasyAI.Navigation;
 using UnityEngine;
 
 public class MyHuntedState : StateMachineBehaviour
@@ -24,7 +22,9 @@ public class MyHuntedState : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // Update variables
+        // In the hunted state, use evade behaviour.
+        agent.Move(hunter.transform, Steering.Behaviour.Evade);
+        // Update variable
         animator.SetBool("BeingHunted", microbe.BeingHunted);
     }
 
