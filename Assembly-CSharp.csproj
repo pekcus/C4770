@@ -47,6 +47,7 @@
      <Compile Include="Assets\Scripts\A1\States\CleanerMind.cs" />
      <Compile Include="Assets\Scripts\A2\Sensors\NearestPickupSensor.cs" />
      <Compile Include="Assets\Scripts\Project\Weapons\ProjectileWeapon.cs" />
+     <Compile Include="Assets\Scripts\A2\MyStates\MyHungryState.cs" />
      <Compile Include="Assets\Scripts\Project\Sensors\NearestAmmoPickupSensor.cs" />
      <Compile Include="Assets\Scripts\EasyAI\Navigation\Nodes\Connection.cs" />
      <Compile Include="Assets\Scripts\WestWorld\Agents\Miner.cs" />
@@ -59,6 +60,7 @@
      <Compile Include="Assets\Scripts\T2\Actions\RestoreEnergyAction.cs" />
      <Compile Include="Assets\Scripts\A2\States\MicrobeRoamingState.cs" />
      <Compile Include="Assets\Scripts\A1\MyFloor.cs" />
+     <Compile Include="Assets\Scripts\A2\MyStates\MyRoamState.cs" />
      <Compile Include="Assets\Scripts\A2\Sensors\NearestPreySensor.cs" />
      <Compile Include="Assets\Scripts\EasyAI\Cameras\FollowAgentCamera.cs" />
      <Compile Include="Assets\Scripts\Project\Pickups\FlagPickup.cs" />
@@ -92,11 +94,13 @@
      <Compile Include="Assets\Scripts\Project\Soldier.cs" />
      <Compile Include="Assets\Scripts\A2\A3\Oscillator.cs" />
      <Compile Include="Assets\Scripts\A2\Sensors\NearestMateSensor.cs" />
+     <Compile Include="Assets\Scripts\A2\MyStates\MyPickupState.cs" />
      <Compile Include="Assets\Scripts\A1\Floor.cs" />
      <Compile Include="Assets\Scripts\A2\States\MicrobeHungryState.cs" />
      <Compile Include="Assets\Scripts\EasyAI\Navigation\Nodes\LookupTable.cs" />
      <Compile Include="Assets\Scripts\T1\BoxCollectorPerformance.cs" />
      <Compile Include="Assets\Scripts\EasyAI\Actuator.cs" />
+     <Compile Include="Assets\Scripts\A2\MyStates\MyMateState.cs" />
      <Compile Include="Assets\Scripts\Project\SoldierManager.cs" />
      <Compile Include="Assets\Scripts\Project\Positions\StrategicPoint.cs" />
      <Compile Include="Assets\Scripts\WestWorld\Agents\WestWorldAgent.cs" />
@@ -114,6 +118,7 @@
      <Compile Include="Assets\Scripts\EasyAI\Cameras\LookAtAgentCamera.cs" />
      <Compile Include="Assets\Scripts\T2\States\EnergyRestState.cs" />
      <Compile Include="Assets\Scripts\Project\Weapons\Weapon.cs" />
+     <Compile Include="Assets\Scripts\A2\MyStates\MyMindState.cs" />
      <Compile Include="Assets\Scripts\EasyAI\CharacterAgent.cs" />
      <Compile Include="Assets\Scripts\A2\A3\SteeringDemoManager.cs" />
      <Compile Include="Assets\Scripts\EasyAI\Navigation\AStar.cs" />
@@ -131,6 +136,7 @@
      <Compile Include="Assets\Scripts\Project\Sensors\NearestHealthPickupSensor.cs" />
      <Compile Include="Assets\Scripts\A2\Microbe.cs" />
      <Compile Include="Assets\Scripts\A1\BotManager.cs" />
+     <Compile Include="Assets\Scripts\A2\MyStates\MyHuntedState.cs" />
      <Compile Include="Assets\Scripts\EasyAI\Utility\MessageComponent.cs" />
      <Compile Include="Assets\Scripts\EasyAI\Navigation\Nodes\NodeBase.cs" />
      <Compile Include="Assets\Scripts\A2\States\MicrobeMatingState.cs" />
@@ -143,12 +149,6 @@
      <Compile Include="Assets\Scripts\T2\Actions\DepleteEnergyAction.cs" />
      <Compile Include="Assets\Scripts\A1\Scripts\BotSensor2.cs" />
      <Compile Include="Assets\Scripts\WestWorld\States\EnterMineAndDigForNugget.cs" />
-     <Compile Include="Assets\Scripts\A2\MyStates\MyHungryState.cs" />
-     <Compile Include="Assets\Scripts\A2\MyStates\MyMindState.cs" />
-     <Compile Include="Assets\Scripts\A2\MyStates\MyRoamState.cs" />
-     <Compile Include="Assets\Scripts\A2\MyStates\MyMateState.cs" />
-     <Compile Include="Assets\Scripts\A2\MyStates\MyPickupState.cs" />
-     <Compile Include="Assets\Scripts\A2\MyStates\MyHuntedState.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets\Effects\Shaders" />
      <Folder Include="Assets\Scripts\EasyAI\Navigation\Generators" />
