@@ -22,17 +22,20 @@ public class MyHuntedState : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // In the hunted state, use evade behaviour.
-        agent.Move(hunter.transform, Steering.Behaviour.Evade);
+        if (microbe != null && microbe.Hunter != null)
+        {
+            hunter = microbe.Hunter;
+            agent.Move(hunter.transform, Steering.Behaviour.Evade);
+        }
         // Update variable
         animator.SetBool("BeingHunted", microbe.BeingHunted);
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+       // P E R I S H </3
+    }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
     //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
