@@ -1,4 +1,5 @@
-﻿using EasyAI;
+﻿using System;
+using EasyAI;
 using UnityEngine;
 
 namespace A2.States
@@ -9,9 +10,23 @@ namespace A2.States
     [CreateAssetMenu(menuName = "A2/States/Microbe Mind", fileName = "Microbe Mind")]
     public class MicrobeMind : State
     {
+        
+        public override void Enter(Agent agent)
+        {
+            //agent.Log($"Feeling hungry, looking for a microbe to hunt...");
+        }
         public override void Execute(Agent agent)
         {
+            /*
             // TODO - Assignment 2 - Complete the mind of the microbes.
+            Microbe mic = agent.GetComponent<Microbe>();
+            if(mic.IsHungry)
+                agent.SetState<MicrobeHungryState>();
+            else if (mic.BeingHunted)
+                agent.SetState<MicrobeHuntedState>();
+            else
+                agent.SetState<MicrobeRoamingState>();
+                */
         }
     }
 }
