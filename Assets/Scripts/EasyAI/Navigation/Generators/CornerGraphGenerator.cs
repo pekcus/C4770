@@ -29,20 +29,59 @@ namespace EasyAI.Navigation.Generators
                     // Is it okay to assume that a node is not a corner if it's on the edge?
                     if (!NodeArea.IsOpen(x, z) && CheckEdge(x, z))
                     {
-                        // Find which corner it is, and check '3' spaces out.
+                        // Check all 4 corners, placing a Node wherever it is open.
+                        
                         
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Helper function to make sure that the given coordinates are at least cNS spaces away from an edge.
+        /// </summary>
+        /// <param name="x"> x-coordinate </param>
+        /// <param name="z"> z-coordinate </param>
+        /// <returns> true if the coordinates are at least cNS away from an edge </returns>
         private bool CheckEdge(int x, int z)
         {
-            if ( (x >= cornerNodeSteps || x <= NodeArea.RangeX - cornerNodeSteps - 1) 
-                 && (x >= cornerNodeSteps || x <= NodeArea.RangeX - cornerNodeSteps - 1) ) {
+            if ( (x >= cornerNodeSteps && x <= NodeArea.RangeX - cornerNodeSteps - 1) 
+                 && (x >= cornerNodeSteps && x <= NodeArea.RangeX - cornerNodeSteps - 1) ) {
                 return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// Helper function to check that the corner is free for cNS spaces.
+        /// </summary>
+        /// <param name="x"> x-coordinate </param>
+        /// <param name="z"> z-coordinate </param>
+        /// <param name="corner"> the corner being checked </param>
+        /// <returns> true if the corner is free for cNS </returns>
+        private bool CheckCorner(int x, int z, int corner)
+        {
+            switch (corner)
+            {
+                // top right corner
+                case 1:
+                {
+                    if (NodeArea.IsOpen(x-1, z+1) && NodeArea.IsOpen(x-1, z) && NodeArea.IsOpen(x, z+1))
+                        if (NodeArea.IsOpen(x - 2, z + 2) && NodeArea.IsOpen(x - 2, z) && NodeArea.IsOpen(x, z + 2))
+                            return true;
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Helper function to check all 4 corners.
+        /// </summary>
+        /// <param name="x"> x-coordinate </param>
+        /// <param name="z"> z-coordinate </param>
+        private void CheckCorners(int x, int z)
+        {
+            
         }
     }
 }
