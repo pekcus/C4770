@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using EasyAI.Navigation.Nodes;
 using UnityEngine;
 
@@ -19,6 +20,17 @@ namespace EasyAI.Navigation
         public static List<Vector3> Perform(Vector3 current, Vector3 goal, List<Connection> connections)
         {
             // TODO - Assignment 4 - Implement A* pathfinding.
+            List<Vector3> path = new List<Vector3>();
+            List<AStarNode> nodes = new List<AStarNode>();
+            AStarNode node = new AStarNode(current, goal, null);
+            foreach (Connection c in connections)
+            {
+                if (c.A == current)
+                    nodes.Add(new AStarNode(c.B, goal, node));
+                else if (c.B == current)
+                    nodes.Add(new AStarNode(c.A, goal, node));
+            }
+            AStarNode next = nodes.OrderBy(n => n.CostF).First();
             
             return new();
         }
