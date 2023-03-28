@@ -7,31 +7,30 @@ namespace EasyAI.Navigation.Generators
     /// </summary>
     public class CornerGraphGenerator : NodeGenerator
     {
-        [SerializeField]
-        [Min(0)]
-        [Tooltip("How far away from corners should the nodes be placed.")]
+        [SerializeField] [Min(0)] [Tooltip("How far away from corners should the nodes be placed.")]
         private int cornerNodeSteps = 3;
-    
+
         /// <summary>
         /// Place nodes at convex corners.
         /// </summary>
         public override void Generate()
         {
             // TODO - Assignment 4 - Complete corner-graph node generation.
-            //NodeArea.AddNode(6,10);
-            //NodeArea.AddNode(7,10);
-            // Loop through each node space.
-            for (int x = 0; x < NodeArea.RangeX; x++)
+            //NodeArea.AddNode(6,10); *
+            //NodeArea.AddNode(7,10); *
+            // Loop through valid node spaces.
+            // Is it okay to assume that a node is not a corner if it's on the edge?
+            int RangeX = NodeArea.RangeX - cornerNodeSteps - 1;
+            int RangeZ = NodeArea.RangeZ - cornerNodeSteps - 1;
+            for (int x = cornerNodeSteps - 1; x < RangeX; x++)
             {
-                for (int z = 0; z < NodeArea.RangeZ; z++)
+                for (int z = cornerNodeSteps - 1; z < RangeZ; z++)
                 {
                     // If a node is closed, it might be a corner.
-                    // Is it okay to assume that a node is not a corner if it's on the edge?
-                    if (!NodeArea.IsOpen(x, z) && CheckEdge(x, z))
+                    if (!NodeArea.IsOpen(x, z))
                     {
                         // Check all 4 corners, placing a Node wherever it is open.
-                        
-                        
+                        CheckCorners(x, z);
                     }
                 }
             }
@@ -45,10 +44,12 @@ namespace EasyAI.Navigation.Generators
         /// <returns> true if the coordinates are at least cNS away from an edge </returns>
         private bool CheckEdge(int x, int z)
         {
-            if ( (x >= cornerNodeSteps && x <= NodeArea.RangeX - cornerNodeSteps - 1) 
-                 && (x >= cornerNodeSteps && x <= NodeArea.RangeX - cornerNodeSteps - 1) ) {
+            if ((x >= cornerNodeSteps && x <= NodeArea.RangeX - cornerNodeSteps - 1)
+                && (x >= cornerNodeSteps && x <= NodeArea.RangeX - cornerNodeSteps - 1))
+            {
                 return true;
             }
+
             return false;
         }
 
@@ -61,17 +62,72 @@ namespace EasyAI.Navigation.Generators
         /// <returns> true if the corner is free for cNS </returns>
         private bool CheckCorner(int x, int z, int corner)
         {
+            bool check = true;
             switch (corner)
             {
                 // top right corner
                 case 1:
                 {
-                    if (NodeArea.IsOpen(x-1, z+1) && NodeArea.IsOpen(x-1, z) && NodeArea.IsOpen(x, z+1))
-                        if (NodeArea.IsOpen(x - 2, z + 2) && NodeArea.IsOpen(x - 2, z) && NodeArea.IsOpen(x, z + 2))
-                            return true;
-                    return false;
+                    for (int i = 0; i < cornerNodeSteps; i++)
+                    {
+                        if (!(NodeArea.IsOpen((x = x - 1), (z = z + 1)) && NodeArea.IsOpen(x, z - 1) &&
+                              NodeArea.IsOpen(x + 1, z)))
+                        {
+                            check = false;
+                            break;
+                        }
+                    }
+
+                    break;
+                }
+                // bottom right corner
+                case 2:
+                {
+                    for (int i = 0; i < cornerNodeSteps; i++)
+                    {
+                        if (!(NodeArea.IsOpen((x = x + 1), (z = z + 1)) && NodeArea.IsOpen(x, z - 1) &&
+                              NodeArea.IsOpen(x - 1, z)))
+                        {
+                            check = false;
+                            break;
+                        }
+                    }
+
+                    break;
+                }
+                // bottom left corner
+                case 3:
+                {
+                    for (int i = 0; i < cornerNodeSteps; i++)
+                    {
+                        if (!(NodeArea.IsOpen((x = x + 1), (z = z - 1)) && NodeArea.IsOpen(x, z + 1) &&
+                              NodeArea.IsOpen(x - 1, z)))
+                        {
+                            check = false;
+                            break;
+                        }
+                    }
+
+                    break;
+                }
+                // top left corner
+                case 4:
+                {
+                    for (int i = 0; i < cornerNodeSteps; i++)
+                    {
+                        if (!(NodeArea.IsOpen((x = x - 1), (z = z - 1)) && NodeArea.IsOpen(x, z + 1) &&
+                              NodeArea.IsOpen(x + 1, z)))
+                        {
+                            check = false;
+                            break;
+                        }
+                    }
+
+                    break;
                 }
             }
+
+            return check;
         }
 
         /// <summary>
@@ -81,7 +137,21 @@ namespace EasyAI.Navigation.Generators
         /// <param name="z"> z-coordinate </param>
         private void CheckCorners(int x, int z)
         {
-            
+            // top right corner
+            if (CheckCorner(x, z, 1))
+                NodeArea.AddNode(x - cornerNodeSteps, z + cornerNodeSteps);
+
+            // bottom right corner
+            if (CheckCorner(x, z, 2))
+                NodeArea.AddNode(x + cornerNodeSteps, z + cornerNodeSteps);
+
+            // bottom left corner
+            if (CheckCorner(x, z, 3))
+                NodeArea.AddNode(x + cornerNodeSteps, z - cornerNodeSteps);
+
+            // top left corner
+            if (CheckCorner(x, z, 4))
+                NodeArea.AddNode(x - cornerNodeSteps, z - cornerNodeSteps);
         }
     }
 }

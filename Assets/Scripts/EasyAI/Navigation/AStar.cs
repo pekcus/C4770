@@ -19,6 +19,7 @@ namespace EasyAI.Navigation
         public static List<Vector3> Perform(Vector3 current, Vector3 goal, List<Connection> connections)
         {
             // TODO - Assignment 4 - Implement A* pathfinding.
+            
             return new();
         }
     }
