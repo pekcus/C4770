@@ -30,8 +30,22 @@ namespace EasyAI.Navigation
                 else if (c.B == current)
                     nodes.Add(new AStarNode(c.A, goal, node));
             }
-            AStarNode next = nodes.OrderBy(n => n.CostF).First();
-            
+
+            while (nodes.Count > 0)
+            {
+                node.Close();
+                AStarNode next = nodes.OrderBy(n => n.CostF).First();
+                next.Close();
+                node = next;
+                foreach (Connection c in connections)
+                {
+                    if ((nodes.Any(n => n.IsOpen && n.Position == c.A)) && c.A == node.Position)
+                        nodes.Add(new AStarNode(c.B, goal, node));
+                    else if (c.B == current)
+                        nodes.Add(new AStarNode(c.A, goal, node));
+                }
+            }
+
             return new();
         }
     }
