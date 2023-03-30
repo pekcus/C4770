@@ -27,6 +27,12 @@ namespace EasyAI.Navigation
 
             // Visiting Nodes
             while (nodes.Any(n => n.IsOpen)) {
+                // Exit loop when we reach the goal!
+                if (node.Position == goal)
+                {
+                    break;
+                }
+
                 node.Close();
                 OpenNodes(node, goal, nodes, connections);
                 node = nodes.Where(n => n.IsOpen).OrderBy(n => n.CostF).First();
@@ -62,14 +68,35 @@ namespace EasyAI.Navigation
         {
             foreach (Connection c in connections)
             {
-                if (!(nodes.Any(n => n.IsOpen && n.Position == c.A)) && c.A == node.Position)
+                // Skip connections that don't have the node
+                if (c.A != node.Position && c.B != node.Position)
+                    continue;
+                
+                // Make a new node for comparison
+                Vector3 p = c.A == node.Position ? c.B : c.A;
+                AStarNode newNode = new(p, goal, node);
+					
+                // See if there is already an existing node at this position
+                AStarNode existing = nodes.FirstOrDefault(n => n.Position == p);
+                // If there is no node, this is easy and just add the new node to the list
+                if (existing == null)
                 {
-                    nodes.Add(new AStarNode(c.B, goal, node));
+                    nodes.Add(newNode);
+                    continue;
                 }
-                if (!(nodes.Any(n => n.IsOpen && n.Position == c.B)) && c.B == node.Position)
+                
+                // Otherwise, there is an existing node
+                // If the existing node has a better (or equal) score, then just discard this new node
+                if (existing.CostF <= newNode.CostF)
                 {
-                    nodes.Add(new AStarNode(c.A, goal, node));
+                    continue;
                 }
+					
+                // Otherwise, the new node is better than the existing one
+                // update the existing node to use the new cost and
+                existing.UpdatePrevious(node);
+                // re-open the updated node
+                existing.Open();
             }
         }
     }
