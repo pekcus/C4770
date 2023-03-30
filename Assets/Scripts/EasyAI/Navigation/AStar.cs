@@ -39,13 +39,11 @@ namespace EasyAI.Navigation
             }
             
             // Creating the Path
-            path.Add(node.Position);
-            while (node.Previous != null)
+            while (node != null)
             {
-                path.Add(node.Previous.Position);
+                path.Add(node.Position);
                 node = node.Previous;
             }
-            path.Add(node.Position);
             path.Reverse();
             // Debugging the Path
             Debug.Log("Path from " + current.ToString() + " to " + goal.ToString());
