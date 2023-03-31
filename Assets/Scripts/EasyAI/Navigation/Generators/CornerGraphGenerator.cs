@@ -16,8 +16,7 @@ namespace EasyAI.Navigation.Generators
         public override void Generate()
         {
             // TODO - Assignment 4 - Complete corner-graph node generation.
-            //NodeArea.AddNode(6,10); *
-            //NodeArea.AddNode(7,10); *
+            
             // Loop through valid node spaces.
             // Is it okay to assume that a node is not a corner if it's on the edge?
             int RangeX = NodeArea.RangeX - cornerNodeSteps - 1;
