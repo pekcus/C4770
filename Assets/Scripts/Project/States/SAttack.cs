@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using EasyAI;
 using UnityEngine;
 
 namespace Project
 {
     public class SAttack : StateMachineBehaviour
     {
+        private Agent a;
         private Soldier i;
         
-        //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+        // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             i = animator.gameObject.GetComponent<Soldier>();

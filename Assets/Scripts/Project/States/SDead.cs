@@ -8,7 +8,7 @@ namespace Project
     {
         private Soldier i;
         
-        //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+        // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             i = animator.gameObject.GetComponent<Soldier>();
@@ -16,10 +16,11 @@ namespace Project
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        //{
-        //    
-        //}
+        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            // Reset role to return to Mind when respawned
+            animator.SetInteger("Role", (int)i.Role);
+        }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

@@ -1,18 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using EasyAI;
 using UnityEngine;
 
 namespace Project
 {
     public class SMind : StateMachineBehaviour
     {
+        private Agent a;
         private Soldier i;
         
-        //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+        // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            // Set the soldier's role and health to go to the correct state
             i = animator.gameObject.GetComponent<Soldier>();
             animator.SetInteger("Role", (int)i.Role);
+            animator.SetInteger("Health", i.Health);
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
