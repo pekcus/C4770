@@ -51,12 +51,15 @@
      <Compile Include="Assets\Scripts\Project\Sensors\NearestAmmoPickupSensor.cs" />
      <Compile Include="Assets\Scripts\EasyAI\Navigation\Nodes\Connection.cs" />
      <Compile Include="Assets\Scripts\WestWorld\Agents\Miner.cs" />
+     <Compile Include="Assets\Scripts\Project\States\SCapture.cs" />
+     <Compile Include="Assets\Scripts\Project\States\SMind.cs" />
      <Compile Include="Assets\Scripts\Project\SoldierPerformance.cs" />
      <Compile Include="Assets\Scripts\T1\States\BoxCollectorMind.cs" />
      <Compile Include="Assets\Scripts\EasyAI\RigidbodyAgent.cs" />
      <Compile Include="Assets\Scripts\EasyAI\State.cs" />
      <Compile Include="Assets\Scripts\T2\EnergyComponent.cs" />
      <Compile Include="Assets\Scripts\EasyAI\Manager.cs" />
+     <Compile Include="Assets\Scripts\Project\States\SAttack.cs" />
      <Compile Include="Assets\Scripts\T2\Actions\RestoreEnergyAction.cs" />
      <Compile Include="Assets\Scripts\A2\States\MicrobeRoamingState.cs" />
      <Compile Include="Assets\Scripts\A1\MyFloor.cs" />
@@ -116,6 +119,7 @@
      <Compile Include="Assets\Scripts\WestWorld\States\WestWorldMind.cs" />
      <Compile Include="Assets\Scripts\A2\Pickups\MicrobeBasePickup.cs" />
      <Compile Include="Assets\Scripts\EasyAI\Cameras\LookAtAgentCamera.cs" />
+     <Compile Include="Assets\Scripts\Project\States\SDefend.cs" />
      <Compile Include="Assets\Scripts\T2\States\EnergyRestState.cs" />
      <Compile Include="Assets\Scripts\Project\Weapons\Weapon.cs" />
      <Compile Include="Assets\Scripts\A2\MyStates\MyMindState.cs" />
@@ -142,6 +146,7 @@
      <Compile Include="Assets\Scripts\A2\States\MicrobeMatingState.cs" />
      <Compile Include="Assets\Scripts\T2\Sensors\EnergySensor.cs" />
      <Compile Include="Assets\Scripts\A2\MicrobePerformance.cs" />
+     <Compile Include="Assets\Scripts\Project\States\SDead.cs" />
      <Compile Include="Assets\Scripts\A1\MyBotManager.cs" />
      <Compile Include="Assets\Scripts\A1\Scripts\BotSensor1.cs" />
      <Compile Include="Assets\Scripts\EasyAI\Navigation\Nodes\NavigationLookup.cs" />
@@ -149,11 +154,6 @@
      <Compile Include="Assets\Scripts\T2\Actions\DepleteEnergyAction.cs" />
      <Compile Include="Assets\Scripts\A1\Scripts\BotSensor2.cs" />
      <Compile Include="Assets\Scripts\WestWorld\States\EnterMineAndDigForNugget.cs" />
-     <Compile Include="Assets\Scripts\Project\States\SMind.cs" />
-     <Compile Include="Assets\Scripts\Project\States\SCapture.cs" />
-     <Compile Include="Assets\Scripts\Project\States\SDead.cs" />
-     <Compile Include="Assets\Scripts\Project\States\SAttack.cs" />
-     <Compile Include="Assets\Scripts\Project\States\SDefend.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets\Effects\Shaders" />
      <Folder Include="Assets\Scripts\EasyAI\Navigation\Generators" />
