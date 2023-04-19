@@ -154,6 +154,7 @@
      <Compile Include="Assets\Scripts\T2\Actions\DepleteEnergyAction.cs" />
      <Compile Include="Assets\Scripts\A1\Scripts\BotSensor2.cs" />
      <Compile Include="Assets\Scripts\WestWorld\States\EnterMineAndDigForNugget.cs" />
+     <Compile Include="Assets\Scripts\Project\States\SDying.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets\Effects\Shaders" />
      <Folder Include="Assets\Scripts\EasyAI\Navigation\Generators" />

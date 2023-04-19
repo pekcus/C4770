@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using EasyAI;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ namespace Project
     {
         private Agent a;
         private Soldier i;
+        private Soldier.EnemyMemory target;
         
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -18,11 +20,24 @@ namespace Project
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        //{
-        //    
-        //}
+        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            if (i.DetectedEnemies.Count == 0)
+            {
+                i.NoTarget();
+                return;
+            }
+            target = i.DetectedEnemies.OrderBy(e => e.Visible).ThenBy(e => e.HasFlag).ThenBy(e => Vector3.Distance(i.transform.position, e.Position)).First();
 
+            i.SetTarget(new()
+            {
+                Enemy = target.Enemy,
+                Position = target.Position,
+                Visible = target.Visible
+            });
+        }
+
+        
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         //{
