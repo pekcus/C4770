@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using EasyAI;
 using Project.Pickups;
 using Project.Sensors;
@@ -9,36 +10,43 @@ namespace Project
 {
     public class SCapture : StateMachineBehaviour
     {
-        private Agent a;
         private Soldier i;
-        private Vector3 r;
-        private bool rreached;
+        private Vector3 p;
+        private Vector3 c;
+        private bool preached;
+        private bool creached;
         
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            a = animator.gameObject.GetComponent<Agent>();
             i = animator.gameObject.GetComponent<Soldier>();
-            r = a.Sense<RandomOffensivePositionSensor, Vector3>();
+            p = i.Sense<RandomOffensivePositionSensor, Vector3>();
+            c = i.Sense<RandomDefensivePositionSensor, Vector3>();
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (i.DetectedEnemies.Count > 0)
+            if (Vector3.Magnitude(animator.transform.position - p) <= 15)
             {
-                animator.SetBool("Enemy", true);
-                return;
+                preached = true;
+                creached = false;
             }
-
-            if (Vector3.Magnitude(animator.transform.position - r) <= 10)
-                rreached = true;
-            if (i.CarryingFlag)
-                a.Navigate(i.BasePosition);
-            else if (!rreached)
-                a.Navigate(r);
+            else if (Vector3.Magnitude(animator.transform.position - c) <= 15)
+                creached = true;
+            
+            if (!preached)
+                i.Navigate(p);
+            else if (!i.CarryingFlag)
+                i.Navigate(i.EnemyFlagPosition);
+            else if (!creached)
+                i.Navigate(c);
             else
-                a.Navigate(i.EnemyFlagPosition);
+                i.Navigate(i.BasePosition);
+            
+            // Set variables
+            animator.SetInteger("Health", i.Health);
+            animator.SetBool("Enemy", i.DetectedEnemies.Count(e => e.Visible) > 0);
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

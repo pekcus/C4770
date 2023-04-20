@@ -119,7 +119,7 @@
      <Compile Include="Assets\Scripts\WestWorld\States\WestWorldMind.cs" />
      <Compile Include="Assets\Scripts\A2\Pickups\MicrobeBasePickup.cs" />
      <Compile Include="Assets\Scripts\EasyAI\Cameras\LookAtAgentCamera.cs" />
-     <Compile Include="Assets\Scripts\Project\States\SDefend.cs" />
+     <Compile Include="Assets\Scripts\Project\States\SRoam.cs" />
      <Compile Include="Assets\Scripts\T2\States\EnergyRestState.cs" />
      <Compile Include="Assets\Scripts\Project\Weapons\Weapon.cs" />
      <Compile Include="Assets\Scripts\A2\MyStates\MyMindState.cs" />
@@ -155,6 +155,7 @@
      <Compile Include="Assets\Scripts\A1\Scripts\BotSensor2.cs" />
      <Compile Include="Assets\Scripts\WestWorld\States\EnterMineAndDigForNugget.cs" />
      <Compile Include="Assets\Scripts\Project\States\SDying.cs" />
+     <Compile Include="Assets\Scripts\Project\States\SSecurity.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets\Effects\Shaders" />
      <Folder Include="Assets\Scripts\EasyAI\Navigation\Generators" />

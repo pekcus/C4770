@@ -28,7 +28,8 @@ namespace Project
             Dead = 0,
             Collector = 1,
             Attacker = 2,
-            Defender = 3
+            Defender = 3,
+            Security = 4
         }
         
         /// <summary>
@@ -437,10 +438,19 @@ namespace Project
                 {
                     team[i].Role = SoldierRole.Collector;
                 }
+
+                else if (i == 1)
+                {
+                    team[i].Role = SoldierRole.Security;
+                }
+                 // Code for testing one soldier at a time:
+                 // - sets all other soldiers to dead
+                 // - set the above soldier role to whichever needs testing
                 else
                 {
                     team[i].Role = 0;
                 }
+                 
                 /*
                 // The nearest half become attackers.
                 else if (i <= team.Length / 2)
@@ -606,7 +616,7 @@ namespace Project
         /// Get all members of this soldier's team.
         /// </summary>
         /// <returns>All soldiers on this solder's team by closest to the enemy flag.</returns>
-        private Soldier[] GetTeam()
+        public Soldier[] GetTeam()
         {
             IEnumerable<Soldier> team = (RedTeam ? SoldierManager.TeamRed : SoldierManager.TeamBlue).Where(s => s.Alive);
             if (RedTeam)

@@ -1,27 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
-using EasyAI;
+using System.Linq;
 using UnityEngine;
 
 namespace Project
 {
-    public class SDefend : StateMachineBehaviour
+    public class SSecurity : StateMachineBehaviour
     {
-        private Agent a;
         private Soldier i;
-        
+        private Soldier friend;
+
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             i = animator.gameObject.GetComponent<Soldier>();
-            //animator.SetInteger("Role", (int)i.Role);
+            friend = i.GetTeam().First(f => f.Role == Soldier.SoldierRole.Collector);
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        //{
-        //    
-        //}
+        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            i.Navigate(friend.transform.position);
+            
+            // Set variables
+            animator.SetInteger("Health", i.Health);
+            animator.SetBool("Enemy", i.DetectedEnemies.Count(e => e.Visible) > 0);
+        }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

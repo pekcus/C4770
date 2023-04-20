@@ -1,47 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using EasyAI;
+using System.Linq;
+using Project.Sensors;
 using UnityEngine;
 
 namespace Project
 {
-    public class SAttack : StateMachineBehaviour
+    public class SRoam : StateMachineBehaviour
     {
         private Soldier i;
-        private Soldier.EnemyMemory target;
+        private Vector3 p;
+        private bool def;
         
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             i = animator.gameObject.GetComponent<Soldier>();
+            def = i.Role == Soldier.SoldierRole.Defender ? true : false;
+            p = def ? i.Sense<RandomDefensivePositionSensor, Vector3>() : i.Sense<RandomOffensivePositionSensor, Vector3>();
             //animator.SetInteger("Role", (int)i.Role);
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (i.DetectedEnemies.Count == 0)
+            // if soldier gets close to goal position, choose a new position
+            if (Vector3.Magnitude(animator.transform.position - p) <= 10)
             {
-                animator.SetBool("Enemy", false);
-                i.NoTarget();
-                return;
+                p = def ? i.Sense<RandomDefensivePositionSensor, Vector3>() : i.Sense<RandomOffensivePositionSensor, Vector3>();
             }
-            target = i.DetectedEnemies.OrderBy(e => e.Visible).ThenBy(e => e.HasFlag).ThenBy(e => Vector3.Distance(i.transform.position, e.Position)).First();
-
-            i.SetTarget(new()
-            {
-                Enemy = target.Enemy,
-                Position = target.Position,
-                Visible = target.Visible
-            });
+            i.Navigate(p);
             
             // Set variables
             animator.SetInteger("Health", i.Health);
             animator.SetBool("Enemy", i.DetectedEnemies.Count(e => e.Visible) > 0);
         }
 
-        
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         //{

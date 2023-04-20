@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using EasyAI;
+using System.Linq;
 using UnityEngine;
 
 namespace Project
@@ -17,6 +18,7 @@ namespace Project
             i = animator.gameObject.GetComponent<Soldier>();
             animator.SetInteger("Role", (int)i.Role);
             animator.SetInteger("Health", i.Health);
+            animator.SetBool("Enemy", i.DetectedEnemies.Count(e => e.Visible) > 0);
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
