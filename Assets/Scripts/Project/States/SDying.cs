@@ -11,19 +11,23 @@ namespace Project
     public class SDying : StateMachineBehaviour
     {
         private Soldier i;
-        private Vector3 hp;
+        private HealthAmmoPickup hp;
         
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             i = animator.gameObject.GetComponent<Soldier>();
-            hp = (i.Sense<NearestHealthPickupSensor, HealthAmmoPickup>()).transform.position;
+            hp = i.Sense<NearestHealthPickupSensor, HealthAmmoPickup>();
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            i.Navigate(hp);
+            if (!hp.Ready)
+                hp = i.Sense<NearestHealthPickupSensor, HealthAmmoPickup>();
+                
+            // try run home if have flag, or get health
+            i.Navigate(i.CarryingFlag ? i.BasePosition : hp.transform.position);
             
             // Set variables
             animator.SetInteger("Health", i.Health);

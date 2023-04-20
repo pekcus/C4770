@@ -17,19 +17,24 @@ namespace Project
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             i = animator.gameObject.GetComponent<Soldier>();
-            def = i.Role == Soldier.SoldierRole.Defender ? true : false;
+            def = i.Role == Soldier.SoldierRole.Defender;
             p = def ? i.Sense<RandomDefensivePositionSensor, Vector3>() : i.Sense<RandomOffensivePositionSensor, Vector3>();
-            //animator.SetInteger("Role", (int)i.Role);
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            // if soldier gets close to goal position, choose a new position
-            if (Vector3.Magnitude(animator.transform.position - p) <= 10)
-            {
+            // if flag gone, find flag
+            if (Vector3.Magnitude(i.BasePosition - i.TeamFlagPosition) >= 1)
+                p = i.TeamFlagPosition;
+            // if attacker, get enemy flag
+            if (i.Role == Soldier.SoldierRole.Attacker)
+                p = i.EnemyFlagPosition;
+            // if close to p, choose new p
+            if (Vector3.Magnitude(animator.transform.position - p) < 0.1f)
                 p = def ? i.Sense<RandomDefensivePositionSensor, Vector3>() : i.Sense<RandomOffensivePositionSensor, Vector3>();
-            }
+            
+            // go to p
             i.Navigate(p);
             
             // Set variables

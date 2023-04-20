@@ -438,7 +438,7 @@ namespace Project
                 {
                     team[i].Role = SoldierRole.Collector;
                 }
-
+                /*
                 else if (i == 1)
                 {
                     team[i].Role = SoldierRole.Security;
@@ -450,10 +450,15 @@ namespace Project
                 {
                     team[i].Role = 0;
                 }
-                 
-                /*
-                // The nearest half become attackers.
-                else if (i <= team.Length / 2)
+                 */
+                
+                // The nearest third become security.
+                else if (i <= team.Length / 3)
+                {
+                    team[i].Role = SoldierRole.Security;
+                }
+                // The next nearest third become attackers.
+                else if (i <= team.Length / 3)
                 {
                     team[i].Role = SoldierRole.Attacker;
                 }
@@ -462,7 +467,7 @@ namespace Project
                 {
                     team[i].Role = SoldierRole.Defender;
                 }
-                */
+                
             }
         }
 

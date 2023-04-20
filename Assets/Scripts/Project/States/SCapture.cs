@@ -12,38 +12,33 @@ namespace Project
     {
         private Soldier i;
         private Vector3 p;
-        private Vector3 c;
         private bool preached;
-        private bool creached;
         
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             i = animator.gameObject.GetComponent<Soldier>();
             p = i.Sense<RandomOffensivePositionSensor, Vector3>();
-            c = i.Sense<RandomDefensivePositionSensor, Vector3>();
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            // if near p or c
             if (Vector3.Magnitude(animator.transform.position - p) <= 15)
             {
                 preached = true;
-                creached = false;
             }
-            else if (Vector3.Magnitude(animator.transform.position - c) <= 15)
-                creached = true;
             
-            if (!preached)
+            
+            // if have flag, go home, if no flag, get flag
+            if (i.CarryingFlag)
+                i.Navigate(i.BasePosition);
+            else if (!preached)
                 i.Navigate(p);
             else if (!i.CarryingFlag)
                 i.Navigate(i.EnemyFlagPosition);
-            else if (!creached)
-                i.Navigate(c);
-            else
-                i.Navigate(i.BasePosition);
-            
+
             // Set variables
             animator.SetInteger("Health", i.Health);
             animator.SetBool("Enemy", i.DetectedEnemies.Count(e => e.Visible) > 0);
