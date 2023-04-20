@@ -27,17 +27,22 @@ namespace Project
             // If friend die, find new friend
             if (friend != null && friend.Role == Soldier.SoldierRole.Dead)
                 friend = i.GetTeam().OrderBy(f => f.CarryingFlag).ThenBy(f => f.Role == Soldier.SoldierRole.Collector)
-                    .ThenBy(f => f.Role == Soldier.SoldierRole.Attacker).FirstOrDefault();
-            // Note: if no flag carrier or collector found, choose an attacker as they have a chance of grabbing the flag
+                    .FirstOrDefault();
+            // Note: if no flag carrier or collector found, friend = null
 
-            // go to friend
-            if (friend != null)
-                i.Navigate(friend.transform.position);
+            // first get flag
+            if (!i.FlagAtBase && i.TeamFlagPosition != null)
+                i.Navigate(i.TeamFlagPosition);
+            // the friend
+            else if (friend != null)
+                i.Navigate(friend.transform.position + (Vector3.Normalize(friend.transform.position - i.transform.position)*5));
+            // then roam
             else
                 i.Navigate(i.Sense<RandomOffensivePositionSensor, Vector3>());
 
             // Set variables
             animator.SetInteger("Health", i.Health);
+            animator.SetInteger("Role", (int)i.Role);
             animator.SetBool("Enemy", i.DetectedEnemies.Count(e => e.Visible) > 0);
             animator.SetBool("CarryingFlag", i.CarryingFlag);
         }

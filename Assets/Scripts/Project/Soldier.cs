@@ -452,13 +452,13 @@ namespace Project
                 }
                  */
                 
-                // The nearest third become security.
-                else if (i <= team.Length / 3)
+                // The nearest two become security.
+                else if (i == 1 || i == 2)
                 {
                     team[i].Role = SoldierRole.Security;
                 }
-                // The next nearest third become attackers.
-                else if (i <= team.Length / 3)
+                // The next nearest half become attackers.
+                else if (i <= team.Length / 2 + 2)
                 {
                     team[i].Role = SoldierRole.Attacker;
                 }

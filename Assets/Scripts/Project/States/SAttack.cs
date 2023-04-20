@@ -36,7 +36,7 @@ namespace Project
             target = i.DetectedEnemies.OrderBy(e => e.Visible).ThenBy(e => e.HasFlag)
                 .ThenBy(e => Vector3.Distance(i.transform.position, e.Position)).First();
 
-            // todo: switch gun based off of enemies and stuff
+            
             if (i.DetectedEnemies.Count(e => e.Visible) > 2)
             {
                 i.SetWeaponPriority(shotgun: 2, machineGun: 3, pistol: 4, rocketLauncher: 1, sniper: 5);
@@ -66,6 +66,7 @@ namespace Project
 
             // Set variables
             animator.SetInteger("Health", i.Health);
+            animator.SetInteger("Role", (int)i.Role);
             animator.SetBool("Enemy", i.DetectedEnemies.Count(e => e.Visible) > 0);
             animator.SetBool("CarryingFlag", i.CarryingFlag);
         }

@@ -26,14 +26,16 @@ namespace Project
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (!hp.Ready)
+            if (!hp.Ready || hp == null)
                 hp = i.Sense<NearestHealthPickupSensor, HealthAmmoPickup>();
 
             // get health
-            i.Navigate(hp.transform.position);
+            if (hp != null)
+                i.Navigate(hp.transform.position);
 
             // Set variables
             animator.SetInteger("Health", i.Health);
+            animator.SetInteger("Role", (int)i.Role);
             animator.SetBool("Enemy", i.DetectedEnemies.Count(e => e.Visible) > 0);
             animator.SetBool("CarryingFlag", i.CarryingFlag);
         }

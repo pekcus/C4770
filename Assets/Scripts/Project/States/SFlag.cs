@@ -26,6 +26,7 @@ namespace Project
             
             // Set variables
             animator.SetInteger("Health", i.Health);
+            animator.SetInteger("Role", (int)i.Role);
             animator.SetBool("Enemy", i.DetectedEnemies.Count(e => e.Visible) > 0);
             animator.SetBool("CarryingFlag", i.CarryingFlag);
         }

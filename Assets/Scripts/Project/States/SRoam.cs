@@ -38,11 +38,8 @@ namespace Project
                 if (top && Vector3.Distance(i.transform.position, p) <= 0.1f)
                 {
                     top = false;
-                    // if flag gone, find flag
-                    if (Vector3.Distance(i.BasePosition, i.TeamFlagPosition) >= 1)
-                        p = i.TeamFlagPosition;
                     // if attacker, get enemy flag
-                    else if (i.Role == Soldier.SoldierRole.Attacker)
+                    if (i.Role == Soldier.SoldierRole.Attacker)
                         p = i.EnemyFlagPosition;
                     // get pickup
                     else if ((a = i.Sense<NearestAmmoPickupSensor, HealthAmmoPickup>()) != null)
@@ -67,6 +64,7 @@ namespace Project
 
             // Set variables
             animator.SetInteger("Health", i.Health);
+            animator.SetInteger("Role", (int)i.Role);
             animator.SetBool("Enemy", i.DetectedEnemies.Count(e => e.Visible) > 0);
             animator.SetBool("CarryingFlag", i.CarryingFlag);
         }
