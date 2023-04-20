@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\Project\Weapons\ProjectileWeapon.cs" />
      <Compile Include="Assets\Scripts\A2\MyStates\MyHungryState.cs" />
      <Compile Include="Assets\Scripts\Project\Sensors\NearestAmmoPickupSensor.cs" />
+     <Compile Include="Assets\Scripts\Project\States\SDying.cs" />
      <Compile Include="Assets\Scripts\EasyAI\Navigation\Nodes\Connection.cs" />
      <Compile Include="Assets\Scripts\WestWorld\Agents\Miner.cs" />
      <Compile Include="Assets\Scripts\Project\States\SCapture.cs" />
@@ -63,6 +64,7 @@
      <Compile Include="Assets\Scripts\T2\Actions\RestoreEnergyAction.cs" />
      <Compile Include="Assets\Scripts\A2\States\MicrobeRoamingState.cs" />
      <Compile Include="Assets\Scripts\A1\MyFloor.cs" />
+     <Compile Include="Assets\Scripts\Project\States\SSecurity.cs" />
      <Compile Include="Assets\Scripts\A2\MyStates\MyRoamState.cs" />
      <Compile Include="Assets\Scripts\A2\Sensors\NearestPreySensor.cs" />
      <Compile Include="Assets\Scripts\EasyAI\Cameras\FollowAgentCamera.cs" />
@@ -154,8 +156,7 @@
      <Compile Include="Assets\Scripts\T2\Actions\DepleteEnergyAction.cs" />
      <Compile Include="Assets\Scripts\A1\Scripts\BotSensor2.cs" />
      <Compile Include="Assets\Scripts\WestWorld\States\EnterMineAndDigForNugget.cs" />
-     <Compile Include="Assets\Scripts\Project\States\SDying.cs" />
-     <Compile Include="Assets\Scripts\Project\States\SSecurity.cs" />
+     <Compile Include="Assets\Scripts\Project\States\SFlag.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets\Effects\Shaders" />
      <Folder Include="Assets\Scripts\EasyAI\Navigation\Generators" />

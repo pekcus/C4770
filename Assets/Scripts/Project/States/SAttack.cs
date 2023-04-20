@@ -6,11 +6,14 @@ using UnityEngine;
 
 namespace Project
 {
+    /*
+     * State for all Soldiers
+     */
     public class SAttack : StateMachineBehaviour
     {
         private Soldier i;
         private Soldier.EnemyMemory target;
-        
+
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
@@ -28,8 +31,25 @@ namespace Project
                 i.NoTarget();
                 return;
             }
-            // kill what see, then what has flag, then what close
-            target = i.DetectedEnemies.OrderBy(e => e.Visible).ThenBy(e => e.HasFlag).ThenBy(e => Vector3.Distance(i.transform.position, e.Position)).First();
+
+            // target what see, then what has flag, then what close
+            target = i.DetectedEnemies.OrderBy(e => e.Visible).ThenBy(e => e.HasFlag)
+                .ThenBy(e => Vector3.Distance(i.transform.position, e.Position)).First();
+
+            // todo: switch gun based off of enemies and stuff
+            if (i.DetectedEnemies.Count(e => e.Visible) > 2)
+            {
+                i.SetWeaponPriority(shotgun: 2, machineGun: 3, pistol: 4, rocketLauncher: 1, sniper: 5);
+            }
+            // if target far, snipe
+            else if (Vector3.Distance(target.Position, i.transform.position) > 30)
+            {
+                i.SetWeaponPriority(shotgun: 5, machineGun: 4, pistol: 3, rocketLauncher: 2, sniper: 1);
+            }
+            else
+            {
+                i.SetWeaponPriority(shotgun: 3, machineGun: 2, pistol: 1, rocketLauncher: 5, sniper: 4);
+            }
 
             i.SetTarget(new()
             {
@@ -37,37 +57,24 @@ namespace Project
                 Position = target.Position,
                 Visible = target.Visible
             });
-            
-            // todo: switch gun based off of enemies and stuff
-            
-            // If have flag, go home... if collector or security, go to flag... if no, chase enemy!
-            if (i.CarryingFlag)
-                i.Navigate(i.BasePosition);
-            else
-                i.Navigate(i.Role == Soldier.SoldierRole.Collector || i.Role == Soldier.SoldierRole.Security ? i.EnemyFlagPosition : target.Position);
-            
+
+
+            // if collector or security, go to flag... if no, chase enemy!
+            i.Navigate(i.Role == Soldier.SoldierRole.Collector || i.Role == Soldier.SoldierRole.Security
+                ? i.EnemyFlagPosition
+                : target.Position);
+
             // Set variables
             animator.SetInteger("Health", i.Health);
             animator.SetBool("Enemy", i.DetectedEnemies.Count(e => e.Visible) > 0);
+            animator.SetBool("CarryingFlag", i.CarryingFlag);
         }
 
-        
+
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         //{
         //    
-        //}
-
-        // OnStateMove is called right after Animator.OnAnimatorMove()
-        //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        //{
-        //    // Implement code that processes and affects root motion
-        //}
-
-        // OnStateIK is called right after Animator.OnAnimatorIK()
-        //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        //{
-        //    // Implement code that sets up animation IK (inverse kinematics)
         //}
     }
 }

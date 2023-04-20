@@ -8,12 +8,15 @@ using UnityEngine;
 
 namespace Project
 {
+    /*
+     * Collector Role State
+     */
     public class SCapture : StateMachineBehaviour
     {
         private Soldier i;
         private Vector3 p;
         private bool preached;
-        
+
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
@@ -30,11 +33,8 @@ namespace Project
                 preached = true;
             }
             
-            
-            // if have flag, go home, if no flag, get flag
-            if (i.CarryingFlag)
-                i.Navigate(i.BasePosition);
-            else if (!preached)
+            // if no flag, get flag
+            if (!preached)
                 i.Navigate(p);
             else if (!i.CarryingFlag)
                 i.Navigate(i.EnemyFlagPosition);
@@ -42,24 +42,13 @@ namespace Project
             // Set variables
             animator.SetInteger("Health", i.Health);
             animator.SetBool("Enemy", i.DetectedEnemies.Count(e => e.Visible) > 0);
+            animator.SetBool("CarryingFlag", i.CarryingFlag);
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         //{
         //    
-        //}
-
-        // OnStateMove is called right after Animator.OnAnimatorMove()
-        //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        //{
-        //    // Implement code that processes and affects root motion
-        //}
-
-        // OnStateIK is called right after Animator.OnAnimatorIK()
-        //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        //{
-        //    // Implement code that sets up animation IK (inverse kinematics)
         //}
     }
 }
