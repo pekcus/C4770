@@ -344,6 +344,7 @@ GameObject:
   - component: {fileID: 4027915266740351254}
   - component: {fileID: 5596074528344541089}
   - component: {fileID: 8853428054890282905}
+  - component: {fileID: 1143009595742740543}
   m_Layer: 0
   m_Name: Soldier
   m_TagString: Untagged
@@ -405,7 +406,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09db045164814ff69ff77d2096462d6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: {fileID: 0}
   moveSpeed: 10
   moveAcceleration: 0
   lookSpeed: 0
@@ -479,6 +479,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87189abe381745dfb3fba3dd2387c137, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &1143009595742740543
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4324690102972426135}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7e91e53eeb50e4640bc2312bc47d3258, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &4324690103502335292
 GameObject:
   m_ObjectHideFlags: 0

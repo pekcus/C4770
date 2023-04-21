@@ -1,0 +1,23 @@
+COMP-4770 A4 - Game Navigation Research
+Nonika Reingold #105048918
+
+
+Stardew Valley Villager Example
+Here you can see that Penny walks to different areas of the map based on her schedule
+https://stardewvalleywiki.com/Penny
+
+Stardew Valley Modding Wiki
+Here you can see that modding a villager to a new location requires a tileX and a tileY coordinate.
+https://stardewvalleywiki.com/Modding:Schedule_data#Schedule_points
+
+Stardew Valley Gameplay
+In this video, at the linked timestamp, you can see the character Shane at the bottom of the screen
+take a distrinct 4-direcitonal path, walking up, turning right, walking up, and turning left.
+This confirms that characters navigate based on a 4-directional grid.
+https://youtu.be/5rgt0ZRPIsg?t=2459
+
+Gearbox "Inside The Box" Article
+This was an interesting article I found which described the repurposing of an enemy AI to make a
+last-minute "Buddy AI" and all the "designer hacks" used to make it work without making extensive
+changes or additions to the game.
+https://www.gearboxsoftware.com/2013/09/inside-the-box-the-once-and-future-slab/
